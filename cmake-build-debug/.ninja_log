@@ -1,0 +1,10 @@
+# ninja log v6
+1	5	1742590882000000000	clean	ad90e366ad70d77b
+0	38	1742596597000000000	build.ninja	5650d73f94530835
+3	411	1742590885000000000	CMakeFiles/b717.dir/src/main.cpp.o	6a74452be622875
+411	463	1742590885000000000	/Volumes/Thunderblade 2TB Storage/Documents2/X-Plane/PlugIn Dev/b717_out/mac_x64/b717.xpl	6e0f4466aadcda1d
+3	41	1742596627000000000	CMakeFiles/b717.dir/lib/TOGA/debug_flag.cpp.o	2281d8b1c447878a
+3	435	1742596627000000000	CMakeFiles/b717.dir/src/main.cpp.o	e0979b843b1dfbc1
+435	487	1742596627000000000	/Volumes/Thunderblade 2TB Storage/Documents2/X-Plane/PlugIn Dev/b717_out/mac_x64/b717.xpl	32f446b390580772
+3	414	1742596688000000000	CMakeFiles/b717.dir/src/main.cpp.o	e0979b843b1dfbc1
+414	464	1742596689000000000	/Volumes/Thunderblade 2TB Storage/Documents2/X-Plane/PlugIn Dev/b717_out/mac_x64/b717.xpl	32f446b390580772

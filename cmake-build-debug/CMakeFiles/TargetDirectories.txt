@@ -1,0 +1,3 @@
+/Volumes/Thunderblade 2TB Storage/Documents2/X-Plane/PlugIn Dev/b717/cmake-build-debug/CMakeFiles/b717.dir
+/Volumes/Thunderblade 2TB Storage/Documents2/X-Plane/PlugIn Dev/b717/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Volumes/Thunderblade 2TB Storage/Documents2/X-Plane/PlugIn Dev/b717/cmake-build-debug/CMakeFiles/rebuild_cache.dir

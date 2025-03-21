@@ -1,0 +1,17 @@
+//  ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+//  •                                           J G X   D E S I G N S
+//  •                                COPYRIGHT (c) 2024  -  ALL RIGHTS RESERVED
+//  ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+
+#ifndef TOGA_VERSION_H
+#define TOGA_VERSION_H
+
+
+#define PROJECT_NAME "@PROJECT_NAME@"
+#define VERSION_MAJOR "@VERSION_MAJOR@"
+#define VERSION_MINOR "@VERSION_MINOR@"
+#define VERSION_PATCH "@VERSION_PATCH@"
+#define PROJECT_VERSION "@PROJECT_VERSION@"
+
+
+#endif //TOGA_VERSION_H
