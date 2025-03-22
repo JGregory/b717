@@ -28,12 +28,6 @@ message(${PROJECT_NAME}.v${PROJECT_VERSION})
 
 
 # SET PATH TO ACF PLUGIN DIRECTORY
-if(TOM)
-    set(ACF_PLUGIN_DIRECTORY "XXXX/plugins/${CMAKE_PROJECT_NAME}")
-elseif(JIM)
-    set(ACF_PLUGIN_DIRECTORY "/Users/jim/Applications/X-Plane/XP12/Aircraft/TOGA/TOGA_B717/plugins/${CMAKE_PROJECT_NAME}")
-endif()
-
 file(READ acf_path.txt ACF_DIRECTORY)
 message(${ACF_DIRECTORY})
 
@@ -156,7 +150,6 @@ if(APPLE AND LOCAL_XP)
         TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
             ${CMAKE_SOURCE_DIR}/../${CMAKE_PROJECT_NAME}_out/mac_x64/${CMAKE_PROJECT_NAME}.xpl
-            #${ACF_PLUGIN_DIRECTORY}/mac_x64/
             ${ACF_DIRECTORY}/plugins/${CMAKE_PROJECT_NAME}/mac_x64/
     )
 endif()
