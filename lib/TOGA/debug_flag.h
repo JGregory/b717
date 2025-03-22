@@ -8,6 +8,7 @@
 
 
 extern bool DEBUG;
+extern bool USER_DEBUG;
 
 
 #endif //JGX_DEBUG_FLAG_H

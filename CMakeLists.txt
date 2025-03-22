@@ -16,20 +16,21 @@ project(b717)
 
 
 
-# PLUGIN VERSION
+# PLUGIN VERSION    (set these 3 values manually when a new version is released)
+#                   (you can then use version.h in C++ as needed)
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 0)
 set(VERSION_PATCH 0)
 set(PROJECT_VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
 configure_file (lib/TOGA/version.h.in ${CMAKE_CURRENT_SOURCE_DIR}/lib/TOGA/version.h @ONLY)
-message(${PROJECT_NAME}.v${PROJECT_VERSION})
+message(${PROJECT_NAME} "v" ${PROJECT_VERSION})
 
 
 
 
 # SET PATH TO ACF PLUGIN DIRECTORY
 file(READ acf_path.txt ACF_DIRECTORY)
-message(${ACF_DIRECTORY})
+
 
 
 
@@ -45,7 +46,7 @@ endif()
 
 
 
-
+# PROJECT LIBRARIES AND FILES
 set(TOGA_LIB
         lib/TOGA/debug_flag.cpp
         lib/TOGA/debug_flag.h
@@ -88,7 +89,16 @@ endif()
 
 
 # TARGET SDK VERSIONS
-target_compile_definitions(${CMAKE_PROJECT_NAME} PUBLIC -DHAS_XPLM -DXPLM200=1 -DXPLM210=1 -DXPLM300=1 -DXPLM301=1 -DXPLM302=1 -DXPLM400=1 -DXPLM401=1)
+target_compile_definitions(${CMAKE_PROJECT_NAME} PUBLIC
+        -DHAS_XPLM
+        -DXPLM200=1
+        -DXPLM210=1
+        -DXPLM300=1
+        -DXPLM301=1
+        -DXPLM302=1
+        -DXPLM400=1
+        -DXPLM401=1
+        -DXPLM411=1)
 
 
 
@@ -124,18 +134,12 @@ set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME "${CMAKE_PROJ
 
 # OUTPUT THE PLUGIN FILE
 if(WIN32)
-    #set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
-    #RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/../${CMAKE_PROJECT_NAME}4_out/win_x64")
     set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/../${CMAKE_PROJECT_NAME}_out/win_x64")
 elseif(APPLE)
-    #set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
-    #RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/../${CMAKE_PROJECT_NAME}_out/mac_x64")
     set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/../${CMAKE_PROJECT_NAME}_out/mac_x64")
 else()
-    #set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
-    #RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/../${CMAKE_PROJECT_NAME}_out/lin_x64")
     set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/../${CMAKE_PROJECT_NAME}_out/lin_x64")
 endif()

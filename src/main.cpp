@@ -23,7 +23,7 @@ using std::endl;
 //  #include "XPLMMenus.h"
 //  #include "XPLMNavigation.h"
 //  #include "XPLMPlanes.h"
-#include "XPLMPlugin.h"
+//  #include "XPLMPlugin.h"
 //  #include "XPLMProcessing.h"
 //  #include "XPLMScenery.h"
 //  #include "XPLMSound.h"
@@ -55,17 +55,24 @@ PLUGIN_API int XPluginStart(char * outName,
                             char * outDesc)
 {
     cout << "" << endl;
-    cout << "[B717] XPluginStart: " << "b717" << ".v" << PROJECT_VERSION << endl;
+    cout << "[B717] XPluginStart: " << PROJECT_NAME << "v" << PROJECT_VERSION << endl;
+
 
 
     //------------------------ PLUGIN DATA -----------------------------
-    strcpy(outName, "TOGA Boeing 717");                             // TODO  Add version data ??
+    char sName[256];
+    strcpy(sName, "TOGA B717v");
+    strcat(sName, PROJECT_VERSION);
+
+    strcpy(outName, sName);
     strcpy(outDesc, "Plugin for Boeing 717 Systems");
     strcpy(outSig, "toga.b717");
 
 
+
     //--------------------------- DEBUG --------------------------------
     DEBUG = true;
+    USER_DEBUG = false;
 
     if (DEBUG)
     {
@@ -75,8 +82,7 @@ PLUGIN_API int XPluginStart(char * outName,
     }
 
 
-
-
+    
     return 1;
 
 }
@@ -93,6 +99,8 @@ PLUGIN_API int XPluginStart(char * outName,
 PLUGIN_API void	XPluginStop(void)
 {
     cout << "[B717] XPluginStop: " << endl;
+
+
 }
 
 
@@ -107,6 +115,7 @@ PLUGIN_API void	XPluginStop(void)
 PLUGIN_API int XPluginEnable(void)
 {
     cout << "[B717] XPluginEnable: " << endl;
+
 
     return 1;
 }
@@ -123,6 +132,8 @@ PLUGIN_API int XPluginEnable(void)
 PLUGIN_API void XPluginDisable(void)
 {
     cout << "[B717] XPluginDisable: " << endl;
+
+
 }
 
 
@@ -139,4 +150,7 @@ PLUGIN_API void XPluginReceiveMessage(XPLMPluginID sender,
                                       void * inParam)
 {
     cout << "[B717] XPluginReceiveMessage: " << sender << inMessage << inParam << endl;
+
+
 }
+
