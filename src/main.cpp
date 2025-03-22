@@ -82,7 +82,7 @@ PLUGIN_API int XPluginStart(char * outName,
     }
 
 
-    
+
     return 1;
 
 }
