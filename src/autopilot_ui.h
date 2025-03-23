@@ -3,13 +3,17 @@
 //  •                                    COPYRIGHT (c) 2025  -  ALL RIGHTS RESERVED
 //  ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
-#ifndef IMGUI_IMPL_XPLANE_H
-#define IMGUI_IMPL_XPLANE_H
+#ifndef AUTOPILOT_UI_H
+#define AUTOPILOT_UI_H
 
 
-void ImGui_ImplXPlane_Init();
-void ImGui_ImplXPlane_NewFrame();
-void ImGui_ImplXPlane_Shutdown();
+// Initialization and Drawing Functions
+void InitAutopilotUI();      // Called once in `XPluginStart()` for any setup logic
+void DrawAutopilotWindow();  // Draws the autopilot UI window
+
+// Callback Registration/Unregistration Functions
+void RegisterAutopilotUI();   // Registers the drawing callback
+void UnregisterAutopilotUI(); // Unregisters the drawing callback
 
 
-#endif //IMGUI_IMPL_XPLANE_H
+#endif //AUTOPILOT_UI_H

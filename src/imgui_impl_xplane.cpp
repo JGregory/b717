@@ -3,28 +3,35 @@
 //  •                                    COPYRIGHT (c) 2025  -  ALL RIGHTS RESERVED
 //  ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
-#include "../lib/IMGUI/imgui.h"
 #include "imgui_impl_xplane.h"
+#include "imgui.h"
+#include "XPLMGraphics.h"
 #include "XPLMDisplay.h"
 
-static XPLMDrawWindow_f drawCallback;
-
+// =========================
+// INITIALIZATION FUNCTION
+// =========================
 void ImGui_ImplXPlane_Init() {
-    // Initialize your ImGui-X-Plane window logic here
+    // No special initialization logic required for X-Plane at the moment
+    ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable keyboard control for ImGui
 }
 
-void ImGui_ImplXPlane_NewFrame() {
-    // Handle the X-Plane draw logic
+// =========================
+// SHUTDOWN FUNCTION
+// =========================
+void ImGui_ImplXPlane_Shutdown() {
+    // No specific shutdown logic is required yet
+    // Any cleanup logic specific to ImGui-X-Plane integration can go here
+}
 
-    // Ensure the viewport size is updated
+// =========================
+// PER-FRAME LOGIC
+// =========================
+void ImGui_ImplXPlane_NewFrame() {
     int windowWidth, windowHeight;
     XPLMGetScreenSize(&windowWidth, &windowHeight);
 
     ImGuiIO& io = ImGui::GetIO();
     io.DisplaySize = ImVec2((float)windowWidth, (float)windowHeight);
-
 }
 
-void ImGui_ImplXPlane_Shutdown() {
-    // Clean up resources if necessary
-}

@@ -7,19 +7,15 @@
 #define IMGUI_WRAPPER_H
 
 
-
-#include "../lib/IMGUI/imgui.h"
-#include "XPLMDisplay.h"
-#include "XPLMGraphics.h"
+#include "imgui.h"
 
 
-
-class ImGuiWrapper {
-public:
-    static void Init();
-    static void Render();
-    static void Shutdown();
-};
+namespace ImGuiWrapper {
+    void Init();        // Initialize ImGui (once)
+    void BeginFrame();  // Start a new ImGui frame
+    void EndFrame();    // Complete ImGui rendering
+    void Shutdown();    // Clean up ImGui context
+}
 
 
 #endif //IMGUI_WRAPPER_H

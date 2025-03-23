@@ -23,8 +23,8 @@ using std::endl;
 //  #include "XPLMMenus.h"
 //  #include "XPLMNavigation.h"
 //  #include "XPLMPlanes.h"
-#include "XPLMPlugin.h"
-#include "XPLMProcessing.h"
+//  #include "XPLMPlugin.h"
+//  #include "XPLMProcessing.h"
 //  #include "XPLMScenery.h"
 //  #include "XPLMSound.h"
 //  #include "XPLMUtilities.h"
@@ -43,7 +43,7 @@ using std::endl;
 
 
 //--[ AIRCRAFT HEADER INCLUDES ]----------------------------------------------------------------------------------------
-
+#include "autopilot_ui.h"
 
 
 
@@ -89,28 +89,18 @@ PLUGIN_API int XPluginStart(char * outName,
     }
 
 
-
-
-
+    // Initialize ImGui
     ImGuiWrapper::Init();
 
-    // Register drawing callback
-    XPLMRegisterDrawCallback(
-        DrawCallback,       // Forward-declared function
-        xplm_Phase_Window,  // Drawing phase (best for UI overlay)
-        0,                  // After the phase
-        nullptr             // No refcon
-    );
+    // Initialize Autopilot UI and Register Callback
+    InitAutopilotUI();
+    RegisterAutopilotUI();
 
     return 1;
 
 }
 
 
-int DrawCallback(XPLMDrawingPhase inPhase, int inIsBefore, void* inRefcon) {
-    ImGuiWrapper::Render();
-    return 1;  // Return 1 to indicate successful drawing
-}
 
 
 
@@ -127,9 +117,10 @@ PLUGIN_API void	XPluginStop(void)
 
     // Cleanup ImGui
     ImGuiWrapper::Shutdown();
-    XPLMUnregisterDrawCallback(DrawCallback, xplm_Phase_Gauges, 0, nullptr);
 
 
+
+    UnregisterAutopilotUI();
 
 }
 
