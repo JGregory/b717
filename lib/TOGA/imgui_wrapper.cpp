@@ -5,7 +5,7 @@
 
 #include "imgui_wrapper.h"
 #include "../lib/IMGUI/backends/imgui_impl_opengl2.h"  // ImGui's OpenGL 2 backend
-#include "imgui_impl_xplane.h"   // We'll create this custom backend
+#include "../src/imgui_impl_xplane.h"   // We'll create this custom backend
 #include "XPLMDisplay.h"
 #include "XPLMGraphics.h"
 #include "XPLMUtilities.h"

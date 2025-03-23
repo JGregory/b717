@@ -57,14 +57,17 @@ endif()
 set(TOGA_LIB_DIR lib/TOGA/)
 set(TOGA_LIB
         ${TOGA_LIB_DIR}/debug_flag.cpp
-        #${TOGA_LIB_DIR}/debug_flag.h
+        ${TOGA_LIB_DIR}/debug_flag.h
         ${TOGA_LIB_DIR}/imgui_wrapper.cpp
+        ${TOGA_LIB_DIR}/imgui_wrapper.h
+        ${TOGA_LIB_DIR}/version.h
 )
 
 set(SRC_DIR src/)
 set(SRC
         ${SRC_DIR}/main.cpp
         ${SRC_DIR}/imgui_impl_xplane.cpp
+        ${SRC_DIR}/imgui_impl_xplane.h
 )
 
 set(ALL_SRC
@@ -78,15 +81,24 @@ add_library(${CMAKE_PROJECT_NAME} SHARED ${ALL_SRC})
 
 
 set(IMGUI_LIB_DIR, lib/IMGUI/)
-set(IMGUI_LIB
-        ${IMGUI_LIB_DIR}/imgui.cpp
-        ${IMGUI_LIB_DIR}/imgui_draw.cpp
-        ${IMGUI_LIB_DIR}/imgui_widgets.cpp
-        ${IMGUI_LIB_DIR}/imgui_tables.cpp
-        ${IMGUI_LIB_DIR}/backends/imgui_impl_opengl2.cpp
-        ${PROJECT_SOURCE_DIR}/imgui_impl_xplane.cpp
+#set(IMGUI_LIB
+#        ${IMGUI_LIB_DIR}/imgui.cpp
+#        ${IMGUI_LIB_DIR}/imgui_draw.cpp
+#        ${IMGUI_LIB_DIR}/imgui_widgets.cpp
+#        ${IMGUI_LIB_DIR}/imgui_tables.cpp
+#        ${IMGUI_LIB_DIR}/backends/imgui_impl_opengl2.cpp
+#        ${PROJECT_SOURCE_DIR}/imgui_impl_xplane.cpp
+#)
+#add_library(IMGUI STATIC ${IMGUI_LIB})
+
+add_library(IMGUI STATIC
+        lib/IMGUI/imgui.cpp
+        lib/IMGUI/imgui_draw.cpp
+        lib/IMGUI/imgui_widgets.cpp
+        lib/IMGUI/imgui_tables.cpp
+        lib/IMGUI/backends/imgui_impl_opengl2.cpp
+        src/imgui_impl_xplane.cpp
 )
-add_library(IMGUI STATIC ${IMGUI_LIB})
 
 
 target_include_directories(IMGUI PUBLIC
