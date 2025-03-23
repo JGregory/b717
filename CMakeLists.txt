@@ -5,8 +5,6 @@ set_target_properties( PROPERTIES
 
 
 # FLAGS TO COPY PLUGIN TO LOCAL ACF PLUGIN DIRECTORY
-set(TOM 0)
-set(JIM 1)
 set(LOCAL_XP 1)         # Are we building to a local directory? (ie. home desktop computer)
 
 
@@ -36,6 +34,7 @@ file(READ acf_path.txt ACF_DIRECTORY)
 
 
 
+
 if(APPLE)
     set(CMAKE_OSX_DEPLOYMENT_TARGET "12.0")
     set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "Build architectures for Mac OS X" FORCE)
@@ -46,20 +45,56 @@ endif()
 
 
 
+
+
+
+
+
+
+
+
 # PROJECT LIBRARIES AND FILES
+set(TOGA_LIB_DIR lib/TOGA/)
 set(TOGA_LIB
-        lib/TOGA/debug_flag.cpp
-        lib/TOGA/debug_flag.h
-        lib/TOGA/version.h
+        ${TOGA_LIB_DIR}/debug_flag.cpp
+        #${TOGA_LIB_DIR}/debug_flag.h
+        ${TOGA_LIB_DIR}/imgui_wrapper.cpp
 )
 
+set(SRC_DIR src/)
 set(SRC
-        src/main.cpp
+        ${SRC_DIR}/main.cpp
+        ${SRC_DIR}/imgui_impl_xplane.cpp
 )
 
-set(ALL_SRC ${TOGA_LIB} ${SRC})
+set(ALL_SRC
+        ${TOGA_LIB}
+        ${SRC}
+)
 
 add_library(${CMAKE_PROJECT_NAME} SHARED ${ALL_SRC})
+
+
+
+
+set(IMGUI_LIB_DIR, lib/IMGUI/)
+set(IMGUI_LIB
+        ${IMGUI_LIB_DIR}/imgui.cpp
+        ${IMGUI_LIB_DIR}/imgui_draw.cpp
+        ${IMGUI_LIB_DIR}/imgui_widgets.cpp
+        ${IMGUI_LIB_DIR}/imgui_tables.cpp
+        ${IMGUI_LIB_DIR}/backends/imgui_impl_opengl2.cpp
+        ${PROJECT_SOURCE_DIR}/imgui_impl_xplane.cpp
+)
+add_library(IMGUI STATIC ${IMGUI_LIB})
+
+
+target_include_directories(IMGUI PUBLIC
+        ${IMGUI_LIB_DIR}
+        ${IMGUI_LIB_DIR}/backends
+)
+
+
 
 
 
@@ -104,7 +139,17 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PUBLIC
 
 
 
-# LINK LIBRARIES
+# LINKING
+if (APPLE)
+    find_library(OPENGL_FRAMEWORK OpenGL)
+elseif(WIN32)
+    find_library(OPENGL_FRAMEWORK opengl32 "${CMAKE_CURRENT_SOURCE_DIR}/GL_for_Windows/lib")
+else()
+    set(OPENGL_FRAMEWORK "")
+endif()
+
+
+
 if(WIN32)
     find_library(XPLM_LIBRARY XPLM_64 "${CMAKE_CURRENT_SOURCE_DIR}/lib/SDK/Libraries/Win/")
     find_library(XPWIDGETS_LIBRARY XPWidgets_64 "${CMAKE_CURRENT_SOURCE_DIR}/lib/SDK/Libraries/Win/")
@@ -117,14 +162,29 @@ else()
     set(XPWIDGETS_LIBRARY "")
 endif()
 
+
+find_package(OpenGL REQUIRED)
+target_link_libraries(${CMAKE_PROJECT_NAME}
+        ${OPENGL_LIBRARIES}
+)
+
+
 target_link_libraries(${CMAKE_PROJECT_NAME}
         ${XPLM_LIBRARY}
         ${XPWIDGETS_LIBRARY}
+        ${OPENGL_FRAMEWORK}
+)
+
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
+        ${IMGUI}
 )
 
 
 
-# SET THE PLUGIN FILE NAME
+
+
+
+# SET THE PLUGIN OUTPUT FILE NAME
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES PREFIX "")
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES SUFFIX "")
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME "${CMAKE_PROJECT_NAME}.xpl")

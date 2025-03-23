@@ -16,15 +16,15 @@ using std::endl;
 //  #include "XPLMCamera.h"
 //  #include "XPLMDataAccess.h"
 #include "XPLMDefs.h"
-//  #include "XPLMDisplay.h"
+#include "XPLMDisplay.h"
 //  #include "XPLMGraphics.h"
 //  #include "XPLMInstance.h"
 //  #include "XPLMMap.h"
 //  #include "XPLMMenus.h"
 //  #include "XPLMNavigation.h"
 //  #include "XPLMPlanes.h"
-//  #include "XPLMPlugin.h"
-//  #include "XPLMProcessing.h"
+#include "XPLMPlugin.h"
+#include "XPLMProcessing.h"
 //  #include "XPLMScenery.h"
 //  #include "XPLMSound.h"
 //  #include "XPLMUtilities.h"
@@ -39,6 +39,7 @@ using std::endl;
 //--[ TOGA LIBRARY INCLUDES ]-------------------------------------------------------------------------------------------
 #include "../lib/TOGA/debug_flag.h"
 #include "../lib/TOGA/version.h"
+#include "../lib/TOGA/imgui_wrapper.h"
 
 
 //--[ AIRCRAFT HEADER INCLUDES ]----------------------------------------------------------------------------------------
@@ -48,6 +49,8 @@ using std::endl;
 
 //======================================================================================================================
 
+// Forward declarations
+float DrawCallback(float, float, int, void*);
 
 
 PLUGIN_API int XPluginStart(char * outName,
@@ -83,6 +86,16 @@ PLUGIN_API int XPluginStart(char * outName,
 
 
 
+
+
+    // Initialize ImGui
+    ImGuiWrapper::Init();
+
+    // Register a drawing callback
+    XPLMRegisterFlightLoopCallback(DrawCallback, -1, nullptr);
+
+
+
     return 1;
 
 }
@@ -99,6 +112,16 @@ PLUGIN_API int XPluginStart(char * outName,
 PLUGIN_API void	XPluginStop(void)
 {
     cout << "[B717] XPluginStop: " << endl;
+
+
+
+
+    // Cleanup ImGui
+    ImGuiWrapper::Shutdown();
+
+    // Unregister the flight loop callback
+    XPLMUnregisterFlightLoopCallback(DrawCallback, nullptr);
+
 
 
 }
@@ -154,3 +177,11 @@ PLUGIN_API void XPluginReceiveMessage(XPLMPluginID sender,
 
 }
 
+
+
+
+// Drawing callback to render ImGui
+float DrawCallback(float, float, int, void*) {
+    ImGuiWrapper::Render();
+    return -1.0f; // Continue calling this callback
+}
