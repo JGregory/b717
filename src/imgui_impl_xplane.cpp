@@ -1,12 +1,11 @@
-//
-// Created by James Gregory on 3/22/25.
-//
+//  ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+//  •                                                       TOGA
+//  •                                    COPYRIGHT (c) 2025  -  ALL RIGHTS RESERVED
+//  ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
 #include "../lib/IMGUI/imgui.h"
-#include "XPLMGraphics.h"
 #include "imgui_impl_xplane.h"
 #include "XPLMDisplay.h"
-#include <OpenGL/gl.h>                // OpenGL headers  TODO:  This is MacOS only
 
 static XPLMDrawWindow_f drawCallback;
 

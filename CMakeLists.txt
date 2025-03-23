@@ -1,11 +1,17 @@
+##  ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+##  •                                                       TOGA
+##  •                                    COPYRIGHT (c) 2025  -  ALL RIGHTS RESERVED
+##  ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+
+
 cmake_minimum_required(VERSION 3.27)
 set(CMAKE_CXX_STANDARD 17)
 set_target_properties( PROPERTIES
         C_STANDARD "11" CXX_STANDARD "20")
 
 
-# FLAGS TO COPY PLUGIN TO LOCAL ACF PLUGIN DIRECTORY
-set(LOCAL_XP 1)         # Are we building to a local directory? (ie. home desktop computer)
+# FLAGS FOR COPYING PLUGIN TO LOCAL ACF PLUGIN DIRECTORY
+set(LOCAL_XP 1)         # Are we building to a local directory? (ie. home desktop computer) 0=NO COPY PERFORMED
 
 
 
@@ -26,6 +32,7 @@ message(${PROJECT_NAME} "v" ${PROJECT_VERSION})
 
 
 
+
 # SET PATH TO ACF PLUGIN DIRECTORY
 file(READ acf_path.txt ACF_DIRECTORY)
 
@@ -34,19 +41,12 @@ file(READ acf_path.txt ACF_DIRECTORY)
 
 
 
-
 if(APPLE)
-    set(CMAKE_OSX_DEPLOYMENT_TARGET "12.0")
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "12.0")     # Minimum MacOS
     set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "Build architectures for Mac OS X" FORCE)
 else()
     set(USE_VMPROTECT 1)
 endif()
-
-
-
-
-
-
 
 
 
@@ -79,34 +79,44 @@ add_library(${CMAKE_PROJECT_NAME} SHARED ${ALL_SRC})
 
 
 
-
 set(IMGUI_LIB_DIR lib/IMGUI/)
 add_library(IMGUI STATIC
-        lib/IMGUI/imgui.cpp
-        lib/IMGUI/imgui_draw.cpp
-        lib/IMGUI/imgui_widgets.cpp
-        lib/IMGUI/imgui_tables.cpp
-        lib/IMGUI/backends/imgui_impl_opengl2.cpp
-        src/imgui_impl_xplane.cpp
+        #lib/IMGUI/imgui.cpp
+        #lib/IMGUI/imgui_draw.cpp
+        #lib/IMGUI/imgui_widgets.cpp
+        #lib/IMGUI/imgui_tables.cpp
+        #lib/IMGUI/backends/imgui_impl_opengl2.cpp
+        #src/imgui_impl_xplane.cpp
+
+        ${IMGUI_LIB_DIR}/imgui.cpp
+        ${IMGUI_LIB_DIR}/imgui_draw.cpp
+        ${IMGUI_LIB_DIR}/imgui_widgets.cpp
+        ${IMGUI_LIB_DIR}/imgui_tables.cpp
+        ${IMGUI_LIB_DIR}/backends/imgui_impl_opengl2.cpp
+        ${SRC_DIR}/imgui_impl_xplane.cpp
 )
 
 
+
+
+
+
+
+# DIRECTORIES
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         ${IMGUI_LIB_DIR}
         ${IMGUI_LIB_DIR}/backends
 )
 
 
-
-
-
-# XP SDK INCLUDES
 include_directories(${CMAKE_PROJECT_NAME} PUBLIC
     "lib/SDK/CHeaders/XPLM"
     "lib/SDK/CHeaders/Widgets"
     "lib/SDK/CHeaders/Wrappers"
     "lib"
 )
+
+
 
 
 
@@ -121,6 +131,9 @@ elseif(APPLE)
 else()
     add_definitions(-DLIN=1)
 endif()
+
+
+
 
 
 
@@ -150,8 +163,6 @@ else()
     set(OPENGL_FRAMEWORK "")
 endif()
 
-
-
 if(WIN32)
     find_library(XPLM_LIBRARY XPLM_64 "${CMAKE_CURRENT_SOURCE_DIR}/lib/SDK/Libraries/Win/")
     find_library(XPWIDGETS_LIBRARY XPWidgets_64 "${CMAKE_CURRENT_SOURCE_DIR}/lib/SDK/Libraries/Win/")
@@ -164,24 +175,7 @@ else()
     set(XPWIDGETS_LIBRARY "")
 endif()
 
-
 find_package(OpenGL REQUIRED)
-
-#
-#target_link_libraries(${CMAKE_PROJECT_NAME}
-#        ${OPENGL_LIBRARIES}
-#)
-#
-#
-#target_link_libraries(${CMAKE_PROJECT_NAME}
-#        ${XPLM_LIBRARY}
-#        ${XPWIDGETS_LIBRARY}
-#        ${OPENGL_FRAMEWORK}
-#)
-#
-#target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
-#        IMGUI
-#)
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
         IMGUI
@@ -193,10 +187,15 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
 
 
 
+
+
+
 # SET THE PLUGIN OUTPUT FILE NAME
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES PREFIX "")
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES SUFFIX "")
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME "${CMAKE_PROJECT_NAME}.xpl")
+
+
 
 
 
