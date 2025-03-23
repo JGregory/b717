@@ -80,17 +80,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED ${ALL_SRC})
 
 
 
-set(IMGUI_LIB_DIR, lib/IMGUI/)
-#set(IMGUI_LIB
-#        ${IMGUI_LIB_DIR}/imgui.cpp
-#        ${IMGUI_LIB_DIR}/imgui_draw.cpp
-#        ${IMGUI_LIB_DIR}/imgui_widgets.cpp
-#        ${IMGUI_LIB_DIR}/imgui_tables.cpp
-#        ${IMGUI_LIB_DIR}/backends/imgui_impl_opengl2.cpp
-#        ${PROJECT_SOURCE_DIR}/imgui_impl_xplane.cpp
-#)
-#add_library(IMGUI STATIC ${IMGUI_LIB})
-
+set(IMGUI_LIB_DIR lib/IMGUI/)
 add_library(IMGUI STATIC
         lib/IMGUI/imgui.cpp
         lib/IMGUI/imgui_draw.cpp
@@ -101,7 +91,7 @@ add_library(IMGUI STATIC
 )
 
 
-target_include_directories(IMGUI PUBLIC
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         ${IMGUI_LIB_DIR}
         ${IMGUI_LIB_DIR}/backends
 )
@@ -176,23 +166,30 @@ endif()
 
 
 find_package(OpenGL REQUIRED)
-target_link_libraries(${CMAKE_PROJECT_NAME}
-        ${OPENGL_LIBRARIES}
-)
 
+#
+#target_link_libraries(${CMAKE_PROJECT_NAME}
+#        ${OPENGL_LIBRARIES}
+#)
+#
+#
+#target_link_libraries(${CMAKE_PROJECT_NAME}
+#        ${XPLM_LIBRARY}
+#        ${XPWIDGETS_LIBRARY}
+#        ${OPENGL_FRAMEWORK}
+#)
+#
+#target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
+#        IMGUI
+#)
 
-target_link_libraries(${CMAKE_PROJECT_NAME}
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
+        IMGUI
         ${XPLM_LIBRARY}
         ${XPWIDGETS_LIBRARY}
         ${OPENGL_FRAMEWORK}
+        OpenGL::GL
 )
-
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
-        ${IMGUI}
-)
-
-
-
 
 
 

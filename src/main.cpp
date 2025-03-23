@@ -50,7 +50,11 @@ using std::endl;
 //======================================================================================================================
 
 // Forward declarations
-float DrawCallback(float, float, int, void*);
+int DrawCallback(
+    XPLMDrawingPhase inPhase,    // Drawing phase
+    int inIsBefore,              // Before or after the phase
+    void* inRefcon               // User-defined data
+);
 
 
 PLUGIN_API int XPluginStart(char * outName,
@@ -88,20 +92,25 @@ PLUGIN_API int XPluginStart(char * outName,
 
 
 
-    // Initialize ImGui
     ImGuiWrapper::Init();
 
-    // Register a drawing callback
-    XPLMRegisterFlightLoopCallback(DrawCallback, -1, nullptr);
-
-
+    // Register drawing callback
+    XPLMRegisterDrawCallback(
+        DrawCallback,       // Forward-declared function
+        xplm_Phase_Window,  // Drawing phase (best for UI overlay)
+        0,                  // After the phase
+        nullptr             // No refcon
+    );
 
     return 1;
 
 }
 
 
-
+int DrawCallback(XPLMDrawingPhase inPhase, int inIsBefore, void* inRefcon) {
+    ImGuiWrapper::Render();
+    return 1;  // Return 1 to indicate successful drawing
+}
 
 
 
@@ -118,9 +127,7 @@ PLUGIN_API void	XPluginStop(void)
 
     // Cleanup ImGui
     ImGuiWrapper::Shutdown();
-
-    // Unregister the flight loop callback
-    XPLMUnregisterFlightLoopCallback(DrawCallback, nullptr);
+    XPLMUnregisterDrawCallback(DrawCallback, xplm_Phase_Gauges, 0, nullptr);
 
 
 
@@ -179,9 +186,3 @@ PLUGIN_API void XPluginReceiveMessage(XPLMPluginID sender,
 
 
 
-
-// Drawing callback to render ImGui
-float DrawCallback(float, float, int, void*) {
-    ImGuiWrapper::Render();
-    return -1.0f; // Continue calling this callback
-}
