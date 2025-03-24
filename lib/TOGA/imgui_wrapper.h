@@ -7,9 +7,6 @@
 #define IMGUI_WRAPPER_H
 
 
-#include "imgui.h"
-
-
 namespace ImGuiWrapper {
     void Init();        // Initialize ImGui (once)
     void BeginFrame();  // Start a new ImGui frame

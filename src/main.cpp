@@ -5,8 +5,8 @@
 
 //--[ C/C++ LIBRARY INCLUDES ]------------------------------------------------------------------------------------------
 #include <cstring>
-#include <iostream>
 
+#include <iostream>
 using std::string;
 using std::cout;
 using std::endl;
@@ -36,18 +36,31 @@ using std::endl;
 //  #include "XPWidgetUtils.h"
 
 
-//--[ TOGA LIBRARY INCLUDES ]-------------------------------------------------------------------------------------------
+//--[ IMGUI LIBRARY HEADER INCLUDES ]-----------------------------------------------------------------------------------
+
+
+//--[ IMGUI XP INTEGRATION HEADERS ]------------------------------------------------------------------------------------
 #include "../lib/TOGA/debug_flag.h"
+
+
+//--[ TOGA LIBRARY HEADERS ]--------------------------------------------------------------------------------------------
 #include "../lib/TOGA/version.h"
 #include "../lib/TOGA/imgui_wrapper.h"
 
 
-//--[ AIRCRAFT HEADER INCLUDES ]----------------------------------------------------------------------------------------
-#include "autopilot_ui.h"
+//--[ AIRCRAFT HEADERS ]------------------------------------------------------------------------------------------------
+#include "xx_examples/autopilot_ui.h"
+
+
+//--[ TEST HEADERS ]----------------------------------------------------------------------------------------------------
+
+
+//--[ EXAMPLES HEADERS ]------------------------------------------------------------------------------------------------
 
 
 
 //======================================================================================================================
+
 
 // Forward declarations
 int DrawCallback(
@@ -89,12 +102,11 @@ PLUGIN_API int XPluginStart(char * outName,
     }
 
 
-    // Initialize ImGui
-    ImGuiWrapper::Init();
 
-    // Initialize Autopilot UI and Register Callback
-    InitAutopilotUI();
-    RegisterAutopilotUI();
+    ImGuiWrapper::Init();               // Initialize ImGui
+
+    InitAutopilotUI();                  // Initialize Autopilot UI
+    RegisterAutopilotUI();              // Register Autopilot UI Callback
 
     return 1;
 
@@ -115,12 +127,9 @@ PLUGIN_API void	XPluginStop(void)
 
 
 
-    // Cleanup ImGui
-    ImGuiWrapper::Shutdown();
+    ImGuiWrapper::Shutdown();           // Cleanup ImGui
+    UnregisterAutopilotUI();          // Unregister Autopilot UI Callback
 
-
-
-    UnregisterAutopilotUI();
 
 }
 

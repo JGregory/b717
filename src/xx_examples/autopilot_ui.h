@@ -7,13 +7,19 @@
 #define AUTOPILOT_UI_H
 
 
-// Initialization and Drawing Functions
+#include "XPLMDisplay.h"
+
+
 void InitAutopilotUI();      // Called once in `XPluginStart()` for any setup logic
-void DrawAutopilotWindow();  // Draws the autopilot UI window
+int DrawAutopilotUIWindow(XPLMDrawingPhase inPhase, int inIsBefore, void* inRefcon);  // Draws the autopilot UI window
 
 // Callback Registration/Unregistration Functions
 void RegisterAutopilotUI();   // Registers the drawing callback
 void UnregisterAutopilotUI(); // Unregisters the drawing callback
+
+// Input Window Management
+void CreateInputWindow();    // Registers an XPLM window for ImGui input
+void DestroyInputWindow();   // Destroys the XPLM window
 
 
 #endif //AUTOPILOT_UI_H

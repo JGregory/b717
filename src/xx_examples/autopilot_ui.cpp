@@ -3,26 +3,89 @@
 //  •                                    COPYRIGHT (c) 2025  -  ALL RIGHTS RESERVED
 //  ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
-#include "../lib/TOGA/imgui_wrapper.h"
+//=====================================================[ INCLUDES ]=====================================================
+
+//--[ C/C++ LIBRARY INCLUDES ]------------------------------------------------------------------------------------------
+//#include <cstring>
+
+#include <iostream>
+using std::string;
+using std::cout;
+using std::endl;
+
+
+//--[ X-PLANE SDK LIBRARY INCLUDES ]------------------------------------------------------------------------------------
+// #include "XPLMCamera.h"
+// #include "XPLMDataAccess.h"
+// #include "XPLMDefs.h"
 #include "XPLMDisplay.h"
+#include "XPLMGraphics.h"
+// #include "XPLMInstance.h"
+// #include "XPLMMap.h"
+// #include "XPLMMenus.h"
+// #include "XPLMNavigation.h"
+// #include "XPLMPlanes.h"
+// #include "XPLMPlugin.h"
+// #include "XPLMProcessing.h"
+// #include "XPLMScenery.h"
+// #include "XPLMSound.h"
 #include "XPLMUtilities.h"
+// #include "XPLMWeather.h"
+// #include "XPStandardWidgets.h"
+// #include "XPUIGraphics.h"
+// #include "XPWidgetDefs.h"
+// #include "XPWidgets.h"
+// #include "XPWidgetUtils.h"
+
+//--[ IMGUI LIBRARY HEADER INCLUDES ]-----------------------------------------------------------------------------------
+#include "../lib/IMGUI/imgui.h"
+
+
+//--[ IMGUI XP INTEGRATION HEADERS ]------------------------------------------------------------------------------------
+
+
+//--[ TOGA LIBRARY HEADERS ]--------------------------------------------------------------------------------------------
+#include "../lib/TOGA/imgui_wrapper.h"
+
+
+//--[ AIRCRAFT HEADERS ]------------------------------------------------------------------------------------------------
+
+
+//--[ TEST HEADERS ]----------------------------------------------------------------------------------------------------
+
+
+//--[ EXAMPLES HEADERS ]------------------------------------------------------------------------------------------------
 #include "autopilot_ui.h"
-#include <string>
+
+
+//=======================================================================================================
+
 
 // Window visibility flag
 static bool showAutopilotWindow = true;
+
 
 // =========================
 // INITIALIZATION FUNCTION
 // =========================
 void InitAutopilotUI() {
+
+    int screenWidth, screenHeight;
+    XPLMGetScreenSize(&screenWidth, &screenHeight);
+    cout << "[B717] " << screenWidth << " " << screenHeight << endl;
+
+    int sl, st, sr, sb;
+    XPLMGetScreenBoundsGlobal(&sl, &st, &sr, &sb);
+    cout << "[B717] " << sl << " " << st << " " << sr << " " << sb << endl;
+
     XPLMDebugString("[Autopilot UI] Initialized.\n");
 }
+
 
 // =========================
 // DRAWING CALLBACK FUNCTION
 // =========================
-int DrawCallback(XPLMDrawingPhase inPhase, int inIsBefore, void* inRefcon) {
+int DrawAutopilotUIWindow(XPLMDrawingPhase inPhase, int inIsBefore, void* inRefcon) {
     if (inPhase != xplm_Phase_Window || inIsBefore) {
         return 1;  // Continue drawing in the next frame
     }
@@ -54,15 +117,16 @@ int DrawCallback(XPLMDrawingPhase inPhase, int inIsBefore, void* inRefcon) {
     return 1;  // Continue drawing in the next frame
 }
 
+
 // =========================
 // REGISTRATION FUNCTIONS
 // =========================
 void RegisterAutopilotUI() {
-    XPLMRegisterDrawCallback(DrawCallback, xplm_Phase_Window, 0, nullptr);
+    XPLMRegisterDrawCallback(DrawAutopilotUIWindow, xplm_Phase_Window, 0, nullptr);
     XPLMDebugString("[Autopilot UI] Registered Draw Callback.\n");
 }
 
 void UnregisterAutopilotUI() {
-    XPLMUnregisterDrawCallback(DrawCallback, xplm_Phase_Window, 0, nullptr);
+    XPLMUnregisterDrawCallback(DrawAutopilotUIWindow, xplm_Phase_Window, 0, nullptr);
     XPLMDebugString("[Autopilot UI] Unregistered Draw Callback.\n");
 }

@@ -3,23 +3,26 @@
 //  •                                    COPYRIGHT (c) 2025  -  ALL RIGHTS RESERVED
 //  ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
-//--[ C/C++ LIBRARY INCLUDES ]------------------------------------------------------------------------------------------
-// #include <cstring>
 
-// #include <iostream>
-// using std::string;
-// using std::cout;
-// using std::endl;
+//=====================================================[ INCLUDES ]=====================================================
+
+//--[ C/C++ LIBRARY INCLUDES ]------------------------------------------------------------------------------------------
+#include <cstring>
+
+#include <iostream>
+using std::string;
+using std::cout;
+using std::endl;
 
 //#include <vector>
 //using std::vector;
 
 
-//--[ X-PLANE SDK LIBRARY HEADERS ]-------------------------------------------------------------------------------------
+//--[ X-PLANE SDK LIBRARY INCLUDES ]------------------------------------------------------------------------------------
 // #include "XPLMCamera.h"
 // #include "XPLMDataAccess.h"
 // #include "XPLMDefs.h"
-// #include "XPLMDisplay.h"
+#include "XPLMDisplay.h"
 // #include "XPLMGraphics.h"
 // #include "XPLMInstance.h"
 // #include "XPLMMap.h"
@@ -40,15 +43,13 @@
 
 
 //--[ IMGUI LIBRARY HEADER INCLUDES ]-----------------------------------------------------------------------------------
-#include "../IMGUI/backends/imgui_impl_opengl2.h"
-
+#include "../lib/IMGUI/imgui.h"
 
 //--[ IMGUI XP INTEGRATION HEADERS ]------------------------------------------------------------------------------------
-#include "../../src/xx_imgui_xp_integration/imgui_xp_integ.h"
+#include "imgui_xp_integ.h"
 
 
 //--[ TOGA LIBRARY HEADERS ]--------------------------------------------------------------------------------------------
-#include "imgui_wrapper.h"
 
 
 //--[ AIRCRAFT HEADERS ]------------------------------------------------------------------------------------------------
@@ -63,31 +64,30 @@
 
 //======================================================================================================================
 
+// =========================
+// INITIALIZATION FUNCTION
+// =========================
+void ImGui_ImplXPlane_Init() {
+    // No special initialization logic required for X-Plane at the moment
+    ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable keyboard control for ImGui
+}
 
-namespace ImGuiWrapper {
+// =========================
+// SHUTDOWN FUNCTION
+// =========================
+void ImGui_ImplXPlane_Shutdown() {
+    // No specific shutdown logic is required yet
+    // Any cleanup logic specific to ImGui-X-Plane integration can go here
+}
 
-    void Init() {
-        ImGui::CreateContext();
-        ImGui_ImplOpenGL2_Init();
-        ImGui_ImplXPlane_Init();
-    }
+// =========================
+// PER-FRAME LOGIC
+// =========================
+void ImGui_ImplXPlane_NewFrame() {
+    int windowWidth, windowHeight;
+    XPLMGetScreenSize(&windowWidth, &windowHeight);
 
-    void BeginFrame() {
-        ImGui_ImplOpenGL2_NewFrame();
-        ImGui_ImplXPlane_NewFrame();
-        ImGui::NewFrame();
-    }
-
-    void EndFrame() {
-        ImGui::Render();
-        ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-    }
-
-    void Shutdown() {
-        ImGui_ImplOpenGL2_Shutdown();
-        ImGui_ImplXPlane_Shutdown();
-        ImGui::DestroyContext();
-    }
-
-} // namespace ImGuiWrapper
+    ImGuiIO& io = ImGui::GetIO();
+    io.DisplaySize = ImVec2((float)windowWidth, (float)windowHeight);
+}
 

@@ -48,10 +48,10 @@ set(TOGA_LIB
 set(SRC_DIR src/)
 set(SRC
         ${SRC_DIR}/main.cpp
-        ${SRC_DIR}/imgui_impl_xplane.cpp
-        ${SRC_DIR}/imgui_impl_xplane.h
-        ${SRC_DIR}/autopilot_ui.cpp
-        ${SRC_DIR}/autopilot_ui.h
+        ${SRC_DIR}/xx_imgui_xp_integration/imgui_xp_integ.cpp
+        ${SRC_DIR}/xx_imgui_xp_integration/imgui_xp_integ.h
+        ${SRC_DIR}/xx_examples/autopilot_ui.cpp
+        ${SRC_DIR}/xx_examples/autopilot_ui.h
 )
 
 set(ALL_SRC
