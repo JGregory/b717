@@ -43,7 +43,7 @@ using std::endl;
 
 
 //--[ IMGUI LIBRARY HEADER INCLUDES ]-----------------------------------------------------------------------------------
-#include "../lib/IMGUI/imgui.h"
+#include "imgui.h"
 
 //--[ IMGUI XP INTEGRATION HEADERS ]------------------------------------------------------------------------------------
 #include "imgui_xp_integ.h"

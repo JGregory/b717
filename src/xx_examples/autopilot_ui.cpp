@@ -38,14 +38,15 @@ using std::endl;
 // #include "XPWidgetUtils.h"
 
 //--[ IMGUI LIBRARY HEADER INCLUDES ]-----------------------------------------------------------------------------------
-#include "../lib/IMGUI/imgui.h"
+#include "imgui.h"
 
 
 //--[ IMGUI XP INTEGRATION HEADERS ]------------------------------------------------------------------------------------
 
 
 //--[ TOGA LIBRARY HEADERS ]--------------------------------------------------------------------------------------------
-#include "../lib/TOGA/imgui_wrapper.h"
+//#include "../lib/TOGA/imgui_wrapper.h"
+#include "imgui_wrapper.h"
 
 
 //--[ AIRCRAFT HEADERS ]------------------------------------------------------------------------------------------------

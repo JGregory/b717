@@ -40,7 +40,7 @@
 
 
 //--[ IMGUI LIBRARY HEADER INCLUDES ]-----------------------------------------------------------------------------------
-#include "../IMGUI/backends/imgui_impl_opengl2.h"
+#include "backends/imgui_impl_opengl2.h"
 
 
 //--[ IMGUI XP INTEGRATION HEADERS ]------------------------------------------------------------------------------------

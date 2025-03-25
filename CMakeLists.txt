@@ -29,7 +29,7 @@ message(${PROJECT_NAME} "v" ${PROJECT_VERSION})
 # SET PATH TO ACF PLUGIN DIRECTORY
 file(READ acf_path.txt ACF_DIRECTORY)
 
-# Platform Configuration
+# PLATFORM CONFIGURATION
 if(APPLE)
     set(CMAKE_OSX_DEPLOYMENT_TARGET "12.0")
     set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "Build architectures for Mac OS X" FORCE)
@@ -61,7 +61,7 @@ set(ALL_SRC
 
 add_library(${CMAKE_PROJECT_NAME} SHARED ${ALL_SRC})
 
-# IMGUI Core Library
+# IMGUI CORE LIBRARY
 set(IMGUI_LIB_DIR lib/IMGUI/)
 add_library(IMGUI STATIC
         ${IMGUI_LIB_DIR}/imgui.cpp
@@ -71,12 +71,17 @@ add_library(IMGUI STATIC
         ${IMGUI_LIB_DIR}/backends/imgui_impl_opengl2.cpp
 )
 
-# ImGui Wrapper Library (New)
+# IMGUI WRAPPER LIBRARY
 add_library(IMGUI_WRAPPER STATIC
         ${TOGA_LIB_DIR}/imgui_wrapper.cpp
 )
 
-# Directories for ImGui Libraries
+
+
+
+
+
+# DIRECTORIES FOR IMGUI LIBRARIES
 target_include_directories(IMGUI PUBLIC
         ${IMGUI_LIB_DIR}
         ${IMGUI_LIB_DIR}/backends
@@ -87,7 +92,7 @@ target_include_directories(IMGUI_WRAPPER PUBLIC
         ${IMGUI_LIB_DIR}   # Includes core ImGui headers
 )
 
-# Directories for Main Plugin
+# DIRECTORIES FOR MAIN PLUGIN
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         "lib/SDK/CHeaders/XPLM"
         "lib/SDK/CHeaders/Widgets"
@@ -95,7 +100,12 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         "lib"
 )
 
-# Platform Definitions
+
+
+
+
+
+# PLATFORM DEFINITIONS
 if(WIN32)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -W1")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
@@ -106,7 +116,7 @@ else()
     add_definitions(-DLIN=1)
 endif()
 
-# Target SDK Versions
+# TARGET SDK VERSIONS
 target_compile_definitions(${CMAKE_PROJECT_NAME} PUBLIC
         -DHAS_XPLM
         -DXPLM200=1
@@ -118,7 +128,7 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PUBLIC
         -DXPLM401=1
         -DXPLM411=1)
 
-# Linking Configuration
+# LINKING CONFIGURATION
 if (APPLE)
     find_library(OPENGL_FRAMEWORK OpenGL)
 elseif(WIN32)
@@ -149,7 +159,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
         OpenGL::GL
 )
 
-# Plugin Output Configuration
+# PLUGIN OUTPUT CONFIGURATION
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES PREFIX "")
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES SUFFIX "")
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME "${CMAKE_PROJECT_NAME}.xpl")
@@ -166,7 +176,7 @@ else()
             LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/../${CMAKE_PROJECT_NAME}_out/lin_x64")
 endif()
 
-# COPY PLUGIN .xpl FILE TO AIRCRAFT PLUGIN DIRECTORY
+# COPY PLUGIN .XPL FILE TO AIRCRAFT PLUGIN DIRECTORY
 if(APPLE AND LOCAL_XP)
     add_custom_command(
             TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
