@@ -11,6 +11,9 @@ using std::string;
 using std::cout;
 using std::endl;
 
+#include<cstdio>
+using std::printf;
+
 
 //--[ X-PLANE SDK LIBRARY INCLUDES ]------------------------------------------------------------------------------------
 //  #include "XPLMCamera.h"
@@ -102,7 +105,7 @@ PLUGIN_API int XPluginStart(char * outName,
     }
 
 
-
+    printf("TESTING");
     ImGuiWrapper::Init();               // Initialize ImGui
 
     InitAutopilotUI();                  // Initialize Autopilot UI

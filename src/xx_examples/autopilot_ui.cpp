@@ -79,6 +79,7 @@ void InitAutopilotUI() {
     XPLMGetScreenBoundsGlobal(&sl, &st, &sr, &sb);
     cout << "[B717] " << sl << " " << st << " " << sr << " " << sb << endl;
 
+
     XPLMDebugString("[Autopilot UI] Initialized.\n");
 }
 

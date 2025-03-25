@@ -80,8 +80,13 @@ add_library(IMGUI_WRAPPER STATIC
 
 
 
+# DIRECTORIES
+include_directories(
+        ${SRC_DIR}/xx_imgui_xp_integration
+        ${SRC_DIR}/xx_examples
+        ${SRC_DIR}/xx_tests
+    )
 
-# DIRECTORIES FOR IMGUI LIBRARIES
 target_include_directories(IMGUI PUBLIC
         ${IMGUI_LIB_DIR}
         ${IMGUI_LIB_DIR}/backends
@@ -92,7 +97,6 @@ target_include_directories(IMGUI_WRAPPER PUBLIC
         ${IMGUI_LIB_DIR}   # Includes core ImGui headers
 )
 
-# DIRECTORIES FOR MAIN PLUGIN
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         "lib/SDK/CHeaders/XPLM"
         "lib/SDK/CHeaders/Widgets"

@@ -44,7 +44,7 @@
 
 
 //--[ IMGUI XP INTEGRATION HEADERS ]------------------------------------------------------------------------------------
-#include "../../src/xx_imgui_xp_integration/imgui_xp_integ.h"
+#include "imgui_xp_integ.h"
 
 
 //--[ TOGA LIBRARY HEADERS ]--------------------------------------------------------------------------------------------
