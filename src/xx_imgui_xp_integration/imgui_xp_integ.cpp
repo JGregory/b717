@@ -7,12 +7,12 @@
 //=====================================================[ INCLUDES ]=====================================================
 
 //--[ C/C++ LIBRARY INCLUDES ]------------------------------------------------------------------------------------------
-#include <cstring>
+//#include <cstring>
 
-#include <iostream>
-using std::string;
-using std::cout;
-using std::endl;
+//#include <iostream>
+//using std::string;
+//using std::cout;
+//using std::endl;
 
 //#include <vector>
 //using std::vector;

@@ -6,10 +6,10 @@
 //--[ C/C++ LIBRARY INCLUDES ]------------------------------------------------------------------------------------------
 #include <cstring>
 
-#include <iostream>
-using std::string;
-using std::cout;
-using std::endl;
+//#include <iostream>
+//using std::string;
+//using std::cout;
+//using std::endl;
 
 #include<cstdio>
 using std::printf;
@@ -77,8 +77,8 @@ PLUGIN_API int XPluginStart(char * outName,
                             char * outSig,
                             char * outDesc)
 {
-    cout << "" << endl;
-    cout << "[B717] XPluginStart: " << PROJECT_NAME << "v" << PROJECT_VERSION << endl;
+    printf("\n");
+    printf("[B717] XPluginStart: %s %s\n", PROJECT_NAME, PROJECT_VERSION);
 
 
 
@@ -94,18 +94,18 @@ PLUGIN_API int XPluginStart(char * outName,
 
 
     //--------------------------- DEBUG --------------------------------
-    DEBUG = true;
+    DEBUG = false;
     USER_DEBUG = false;
 
     if (DEBUG)
     {
-        cout << "[B717] ==============================================" << endl;
-        cout << "[B717] =====--->>    DEBUG MODE ENABLED    <<---=====" << endl;
-        cout << "[B717] ==============================================" << endl;
+        printf("[B717] ==============================================\n");
+        printf("[B717] =====--->>    DEBUG MODE ENABLED    <<---=====\n");
+        printf("[B717] ==============================================\n");
     }
 
 
-    printf("TESTING");
+    //----------------------INIT & REGISTRATION ------------------------
     ImGuiWrapper::Init();               // Initialize ImGui
 
     InitAutopilotUI();                  // Initialize Autopilot UI
@@ -125,7 +125,7 @@ PLUGIN_API int XPluginStart(char * outName,
 
 PLUGIN_API void	XPluginStop(void)
 {
-    cout << "[B717] XPluginStop: " << endl;
+    printf("[B717] XPluginStop: \n");
 
 
 
@@ -147,8 +147,7 @@ PLUGIN_API void	XPluginStop(void)
 
 PLUGIN_API int XPluginEnable(void)
 {
-    cout << "[B717] XPluginEnable: " << endl;
-
+    printf("[B717] XPluginEnable: \n");
 
     return 1;
 }
@@ -164,8 +163,7 @@ PLUGIN_API int XPluginEnable(void)
 
 PLUGIN_API void XPluginDisable(void)
 {
-    cout << "[B717] XPluginDisable: " << endl;
-
+    printf("[B717] XPluginDisable: \n");
 
 }
 
@@ -182,8 +180,7 @@ PLUGIN_API void XPluginReceiveMessage(XPLMPluginID sender,
                                       long inMessage,
                                       void * inParam)
 {
-    cout << "[B717] XPluginReceiveMessage: " << sender << inMessage << inParam << endl;
-
+    printf("[B717] XPluginReceiveMessage: %d, %ld, %p \n", sender, inMessage, inParam);
 
 }
 

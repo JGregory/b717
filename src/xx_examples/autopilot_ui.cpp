@@ -10,8 +10,11 @@
 
 #include <iostream>
 using std::string;
-using std::cout;
-using std::endl;
+//using std::cout;
+//using std::endl;
+
+#include<cstdio>
+using std::printf;
 
 
 //--[ X-PLANE SDK LIBRARY INCLUDES ]------------------------------------------------------------------------------------
@@ -45,7 +48,6 @@ using std::endl;
 
 
 //--[ TOGA LIBRARY HEADERS ]--------------------------------------------------------------------------------------------
-//#include "../lib/TOGA/imgui_wrapper.h"
 #include "imgui_wrapper.h"
 
 
@@ -73,14 +75,13 @@ void InitAutopilotUI() {
 
     int screenWidth, screenHeight;
     XPLMGetScreenSize(&screenWidth, &screenHeight);
-    cout << "[B717] " << screenWidth << " " << screenHeight << endl;
+    printf("[Autopilot UI] SW/SH: %d %d \n", screenWidth, screenHeight);
 
     int sl, st, sr, sb;
     XPLMGetScreenBoundsGlobal(&sl, &st, &sr, &sb);
-    cout << "[B717] " << sl << " " << st << " " << sr << " " << sb << endl;
+    printf("[Autopilot UI] SL/ST/SR/SB: %d %d %d %d \n", sl, st, sr, sb);
 
-
-    XPLMDebugString("[Autopilot UI] Initialized.\n");
+    printf("[Autopilot UI] Initialized.\n");
 }
 
 
@@ -107,8 +108,8 @@ int DrawAutopilotUIWindow(XPLMDrawingPhase inPhase, int inIsBefore, void* inRefc
         ImGui::SliderFloat("Altitude", &altitude, 0.0f, 40000.0f);
 
         if (ImGui::Button("Set Altitude")) {
-            std::string logMsg = "[Autopilot UI] Altitude set to " + std::to_string((int)altitude) + "\n";
-            XPLMDebugString(logMsg.c_str());
+            std::string logMsg = "[DrawAutopilotUIWindow] Altitude set to: " + std::to_string((int)altitude);
+            printf("%s\n", logMsg.c_str());
         }
 
         ImGui::End();
@@ -125,10 +126,10 @@ int DrawAutopilotUIWindow(XPLMDrawingPhase inPhase, int inIsBefore, void* inRefc
 // =========================
 void RegisterAutopilotUI() {
     XPLMRegisterDrawCallback(DrawAutopilotUIWindow, xplm_Phase_Window, 0, nullptr);
-    XPLMDebugString("[Autopilot UI] Registered Draw Callback.\n");
+    printf("[Autopilot UI] Registered Draw Callback.\n");
 }
 
 void UnregisterAutopilotUI() {
     XPLMUnregisterDrawCallback(DrawAutopilotUIWindow, xplm_Phase_Window, 0, nullptr);
-    XPLMDebugString("[Autopilot UI] Unregistered Draw Callback.\n");
+    printf("[Autopilot UI] Unregistered Draw Callback.\n");
 }
