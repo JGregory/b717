@@ -65,14 +65,21 @@ using std::printf;
 //=======================================================================================================
 
 
+
+
 // Window visibility flag
 static bool showAutopilotWindow = true;
+
+//ImFont* font2 = nullptr;
 
 
 // =========================
 // INITIALIZATION FUNCTION
 // =========================
 void InitAutopilotUI() {
+
+   //ImGuiIO& io = ImGui::GetIO();
+   //io.Fonts->AddFontFromFileTTF("../../resources/fonts/JetBrainsMono-Regular.ttf", 14);
 
     int screenWidth, screenHeight;
     XPLMGetScreenSize(&screenWidth, &screenHeight);
@@ -93,7 +100,7 @@ int DrawAutopilotUIWindow(XPLMDrawingPhase inPhase, int inIsBefore, void* inRefc
     if (inPhase != xplm_Phase_Window || inIsBefore) {
         return 1;  // Continue drawing in the next frame
     }
-
+    
     ImGuiWrapper::BeginFrame();  // Start ImGui frame
 
     if (showAutopilotWindow) {
@@ -101,10 +108,15 @@ int DrawAutopilotUIWindow(XPLMDrawingPhase inPhase, int inIsBefore, void* inRefc
         ImGui::SetNextWindowSize(ImVec2(300, 200), ImGuiCond_Once);
 
         ImGui::Begin("Autopilot Control", &showAutopilotWindow,
-                     ImGuiWindowFlags_NoCollapse); // |
-                     //ImGuiWindowFlags_AlwaysAutoResize);
+            ImGuiWindowFlags_NoCollapse |
+            ImGuiWindowFlags_NoTitleBar);
+           // ImGuiWindowFlags_AlwaysAutoResize);
 
-        //ImGui::Text("Autopilot Settings");
+        ImGui::SeparatorText("Autopilot Settings");
+
+        //ImGui::PushFont(font2);
+        //ImGui::Text("Hello with another font");
+        //ImGui::PopFont();
         //static float altitude = 10000.0f;
         //ImGui::SliderFloat("Altitude", &altitude, 0.0f, 40000.0f);
 
