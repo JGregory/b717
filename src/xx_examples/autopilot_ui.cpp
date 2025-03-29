@@ -13,7 +13,7 @@ using std::string;
 //using std::cout;
 //using std::endl;
 
-#include<cstdio>
+#include <cstdio>
 using std::printf;
 
 
@@ -39,6 +39,7 @@ using std::printf;
 // #include "XPWidgetDefs.h"
 // #include "XPWidgets.h"
 // #include "XPWidgetUtils.h"
+
 
 //--[ IMGUI LIBRARY HEADER INCLUDES ]-----------------------------------------------------------------------------------
 #include "imgui.h"
@@ -100,17 +101,17 @@ int DrawAutopilotUIWindow(XPLMDrawingPhase inPhase, int inIsBefore, void* inRefc
         ImGui::SetNextWindowSize(ImVec2(300, 200), ImGuiCond_Once);
 
         ImGui::Begin("Autopilot Control", &showAutopilotWindow,
-                     ImGuiWindowFlags_NoCollapse |
-                     ImGuiWindowFlags_AlwaysAutoResize);
+                     ImGuiWindowFlags_NoCollapse); // |
+                     //ImGuiWindowFlags_AlwaysAutoResize);
 
-        ImGui::Text("Autopilot Settings");
-        static float altitude = 10000.0f;
-        ImGui::SliderFloat("Altitude", &altitude, 0.0f, 40000.0f);
+        //ImGui::Text("Autopilot Settings");
+        //static float altitude = 10000.0f;
+        //ImGui::SliderFloat("Altitude", &altitude, 0.0f, 40000.0f);
 
-        if (ImGui::Button("Set Altitude")) {
-            std::string logMsg = "[DrawAutopilotUIWindow] Altitude set to: " + std::to_string((int)altitude);
-            printf("%s\n", logMsg.c_str());
-        }
+        //if (ImGui::Button("Set Altitude")) {
+        //    std::string logMsg = "[DrawAutopilotUIWindow] Altitude set to: " + std::to_string((int)altitude);
+        //    printf("%s\n", logMsg.c_str());
+        //}
 
         ImGui::End();
     }

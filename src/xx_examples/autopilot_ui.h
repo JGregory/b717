@@ -17,9 +17,5 @@ int DrawAutopilotUIWindow(XPLMDrawingPhase inPhase, int inIsBefore, void* inRefc
 void RegisterAutopilotUI();   // Registers the drawing callback
 void UnregisterAutopilotUI(); // Unregisters the drawing callback
 
-// Input Window Management
-void CreateInputWindow();    // Registers an XPLM window for ImGui input
-void DestroyInputWindow();   // Destroys the XPLM window
-
 
 #endif //AUTOPILOT_UI_H

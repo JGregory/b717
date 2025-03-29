@@ -9,11 +9,13 @@ set(CMAKE_CXX_STANDARD 17)
 set_target_properties( PROPERTIES
         C_STANDARD "11" CXX_STANDARD "20")
 
+# PROJECT NAME
+project(b717)
+
+
 # FLAGS FOR COPYING PLUGIN TO LOCAL ACF PLUGIN DIRECTORY
 set(LOCAL_XP 1)
 
-# PROJECT NAME
-project(b717)
 
 # PLUGIN VERSION
 set(VERSION_MAJOR 0)
@@ -23,8 +25,11 @@ set(PROJECT_VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
 configure_file (lib/TOGA/version.h.in ${CMAKE_CURRENT_SOURCE_DIR}/lib/TOGA/version.h @ONLY)
 message(${PROJECT_NAME} "v" ${PROJECT_VERSION})
 
+
 # SET PATH TO ACF PLUGIN DIRECTORY
 file(READ acf_path.txt ACF_DIRECTORY)
+
+
 
 # PLATFORM CONFIGURATION
 if(APPLE)
@@ -33,6 +38,9 @@ if(APPLE)
 else()
     set(USE_VMPROTECT 1)
 endif()
+
+
+
 
 # PROJECT LIBRARIES AND FILES
 set(TOGA_LIB_DIR lib/TOGA/)
@@ -130,6 +138,9 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PUBLIC
         -DXPLM401=1
         -DXPLM411=1)
 
+
+
+
 # LINKING CONFIGURATION
 if (APPLE)
     find_library(OPENGL_FRAMEWORK OpenGL)
@@ -161,6 +172,9 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
         OpenGL::GL
 )
 
+
+
+
 # PLUGIN OUTPUT CONFIGURATION
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES PREFIX "")
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES SUFFIX "")
@@ -177,6 +191,9 @@ else()
     set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
             LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/../${CMAKE_PROJECT_NAME}_out/lin_x64")
 endif()
+
+
+
 
 # COPY PLUGIN .XPL FILE TO AIRCRAFT PLUGIN DIRECTORY
 if(APPLE AND LOCAL_XP)
