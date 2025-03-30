@@ -43,16 +43,16 @@ using std::printf;
 
 
 //--[ IMGUI XP INTEGRATION HEADERS ]------------------------------------------------------------------------------------
-#include "../lib/TOGA/debug_flag.h"
 
 
 //--[ TOGA LIBRARY HEADERS ]--------------------------------------------------------------------------------------------
-#include "../lib/TOGA/version.h"
-#include "../lib/TOGA/imgui_wrapper.h"
+#include "debug_flag.h"
+#include "version.h"
+#include "imgui_wrapper.h"
 
 
 //--[ AIRCRAFT HEADERS ]------------------------------------------------------------------------------------------------
-#include "xx_examples/autopilot_ui.h"
+#include "autopilot_ui.h"
 
 
 //--[ TEST HEADERS ]----------------------------------------------------------------------------------------------------
