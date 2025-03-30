@@ -47,6 +47,7 @@ set(TOGA_LIB_DIR lib/TOGA/)
 set(TOGA_LIB
         ${TOGA_LIB_DIR}/cdr.cpp
         ${TOGA_LIB_DIR}/cdr.h
+        ${TOGA_LIB_DIR}/datatypes.h
         ${TOGA_LIB_DIR}/debug_flag.cpp
         ${TOGA_LIB_DIR}/debug_flag.h
         ${TOGA_LIB_DIR}/version.h
