@@ -60,8 +60,8 @@ set(SRC
         ${SRC_DIR}/02_xdatarefs/xdatarefs.h
         ${SRC_DIR}/04_cdatarefs/cdatarefs.cpp
         ${SRC_DIR}/04_cdatarefs/cdatarefs.h
-        ${SRC_DIR}/xx_imgui_xp_integration/imgui_xp_integ.cpp
-        ${SRC_DIR}/xx_imgui_xp_integration/imgui_xp_integ.h
+        ${SRC_DIR}/xx_imgui_xp_impl/imgui_xp_impl.cpp
+        ${SRC_DIR}/xx_imgui_xp_impl/imgui_xp_impl.h
         ${SRC_DIR}/xx_examples/autopilot_ui.cpp
         ${SRC_DIR}/xx_examples/autopilot_ui.h
         ${SRC_DIR}/main.cpp
@@ -159,7 +159,7 @@ include_directories(
         ${SRC_DIR}/70_power_plant/82_water_injection
         ${SRC_DIR}/70_power_plant/83_accessory_gear_boxes
         ${SRC_DIR}/70_power_plant/84_propulsion_augmentation
-        ${SRC_DIR}/xx_imgui_xp_integration
+        ${SRC_DIR}/xx_imgui_xp_impl
         ${SRC_DIR}/xx_examples
         ${SRC_DIR}/xx_tests
     )
