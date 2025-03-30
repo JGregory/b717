@@ -88,6 +88,14 @@ add_library(IMGUI_WRAPPER STATIC
 
 # DIRECTORIES
 include_directories(
+        ${SRC_DIR}/02_xdatarefs
+        ${SRC_DIR}/04_cdatarefs
+        ${SRC_DIR}/06_xcommands
+        ${SRC_DIR}/08_ccommands
+        ${SRC_DIR}/20_airframe_systems
+        ${SRC_DIR}/51_structures
+        ${SRC_DIR}/60_prop_rotor
+        ${SRC_DIR}/70_power_plant
         ${SRC_DIR}/xx_imgui_xp_integration
         ${SRC_DIR}/xx_examples
         ${SRC_DIR}/xx_tests
