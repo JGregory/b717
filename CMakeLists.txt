@@ -45,18 +45,26 @@ endif()
 # PROJECT LIBRARIES AND FILES
 set(TOGA_LIB_DIR lib/TOGA/)
 set(TOGA_LIB
+        ${TOGA_LIB_DIR}/cdr.cpp
+        ${TOGA_LIB_DIR}/cdr.h
         ${TOGA_LIB_DIR}/debug_flag.cpp
         ${TOGA_LIB_DIR}/debug_flag.h
         ${TOGA_LIB_DIR}/version.h
+        ${TOGA_LIB_DIR}/xdr.cpp
+        ${TOGA_LIB_DIR}/xdr.h
 )
 
 set(SRC_DIR src/)
 set(SRC
-        ${SRC_DIR}/main.cpp
+        ${SRC_DIR}/02_xdatarefs/xdatarefs.cpp
+        ${SRC_DIR}/02_xdatarefs/xdatarefs.h
+        ${SRC_DIR}/04_cdatarefs/cdatarefs.cpp
+        ${SRC_DIR}/04_cdatarefs/cdatarefs.h
         ${SRC_DIR}/xx_imgui_xp_integration/imgui_xp_integ.cpp
         ${SRC_DIR}/xx_imgui_xp_integration/imgui_xp_integ.h
         ${SRC_DIR}/xx_examples/autopilot_ui.cpp
         ${SRC_DIR}/xx_examples/autopilot_ui.h
+        ${SRC_DIR}/main.cpp
 )
 
 set(ALL_SRC
@@ -93,6 +101,7 @@ include_directories(
         ${SRC_DIR}/06_xcommands
         ${SRC_DIR}/08_ccommands
         ${SRC_DIR}/20_airframe_systems
+        ${SRC_DIR}/20_airframe_systems/00_general
         ${SRC_DIR}/51_structures
         ${SRC_DIR}/60_prop_rotor
         ${SRC_DIR}/70_power_plant
