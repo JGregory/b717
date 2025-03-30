@@ -102,9 +102,63 @@ include_directories(
         ${SRC_DIR}/08_ccommands
         ${SRC_DIR}/20_airframe_systems
         ${SRC_DIR}/20_airframe_systems/00_general
-        ${SRC_DIR}/51_structures
+        ${SRC_DIR}/20_airframe_systems/21_air_conditioning
+        ${SRC_DIR}/20_airframe_systems/22_auto_flight
+        ${SRC_DIR}/20_airframe_systems/23_communications
+        ${SRC_DIR}/20_airframe_systems/24_electrical
+        ${SRC_DIR}/20_airframe_systems/25_equip_furnishings
+        ${SRC_DIR}/20_airframe_systems/26_fire_protection
+        ${SRC_DIR}/20_airframe_systems/27_flight_controls
+        ${SRC_DIR}/20_airframe_systems/28_fuel
+        ${SRC_DIR}/20_airframe_systems/29_hydraulic
+        ${SRC_DIR}/20_airframe_systems/30_ice_rain_protection
+        ${SRC_DIR}/20_airframe_systems/31_indicating_recording
+        ${SRC_DIR}/20_airframe_systems/32_landing_gear
+        ${SRC_DIR}/20_airframe_systems/33_lights
+        ${SRC_DIR}/20_airframe_systems/34_navigation
+        ${SRC_DIR}/20_airframe_systems/35_oxygen
+        ${SRC_DIR}/20_airframe_systems/36_pneumatic
+        ${SRC_DIR}/20_airframe_systems/37_vacuum
+        ${SRC_DIR}/20_airframe_systems/38_water_waste
+        ${SRC_DIR}/20_airframe_systems/39_electronic_pnls & multipurp_comp
+        ${SRC_DIR}/20_airframe_systems/41_water_ballast
+        ${SRC_DIR}/20_airframe_systems/42_integrated_modular_avionics
+        ${SRC_DIR}/20_airframe_systems/44_cabin_systems
+        ${SRC_DIR}/20_airframe_systems/45_central_maint_system
+        ${SRC_DIR}/20_airframe_systems/46_information_sys
+        ${SRC_DIR}/20_airframe_systems/47_inert_gas_system
+        ${SRC_DIR}/20_airframe_systems/49_airborne_auxiliary_power
+        ${SRC_DIR}/20_airframe_systems/50_cargo_and_accy_compartments
+        ${SRC_DIR}/51_structures/00_general
+        ${SRC_DIR}/51_structures/52_doors
+        ${SRC_DIR}/51_structures/53_fuselage
+        ${SRC_DIR}/51_structures/54_nacelles_pylons
+        ${SRC_DIR}/51_structures/55_stabliizers
+        ${SRC_DIR}/51_structures/56_windows
+        ${SRC_DIR}/51_structures/57_wings
         ${SRC_DIR}/60_prop_rotor
+        ${SRC_DIR}/60_prop_rotor/00_general
+        ${SRC_DIR}/60_prop_rotor/62_rotors
+        ${SRC_DIR}/60_prop_rotor/63_rotor_drives
+        ${SRC_DIR}/60_prop_rotor/64_tail_rotor
+        ${SRC_DIR}/60_prop_rotor/65_tail_rotor_drive
+        ${SRC_DIR}/60_prop_rotor/66_folding_blades_&_tail_pylon
+        ${SRC_DIR}/60_prop_rotor/67_rotors_flight_control
         ${SRC_DIR}/70_power_plant
+        ${SRC_DIR}/70_power_plant/00_general
+        ${SRC_DIR}/70_power_plant/72_engine
+        ${SRC_DIR}/70_power_plant/73_engine_fuel_&_control
+        ${SRC_DIR}/70_power_plant/74_ignition
+        ${SRC_DIR}/70_power_plant/75_air
+        ${SRC_DIR}/70_power_plant/76_engine_controls
+        ${SRC_DIR}/70_power_plant/77_engine_indicating
+        ${SRC_DIR}/70_power_plant/78_exhaust
+        ${SRC_DIR}/70_power_plant/79_oil
+        ${SRC_DIR}/70_power_plant/80_starting
+        ${SRC_DIR}/70_power_plant/81_turbines
+        ${SRC_DIR}/70_power_plant/82_water_injection
+        ${SRC_DIR}/70_power_plant/83_accessory_gear_boxes
+        ${SRC_DIR}/70_power_plant/84_propulsion_augmentation
         ${SRC_DIR}/xx_imgui_xp_integration
         ${SRC_DIR}/xx_examples
         ${SRC_DIR}/xx_tests
