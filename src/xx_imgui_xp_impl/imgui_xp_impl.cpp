@@ -7,20 +7,19 @@
 
 //--[ C/C++ LIBRARY INCLUDES ]------------------------------------------------------------------------------------------
 //#include <cstring>
-
+//#include <string>
 //#include <iostream>
-//using std::string;
+//#include <vector>
+#include <cstdio>
+
 //using std::cout;
 //using std::endl;
-
-#include<cstdio>
+//using std::string;
+//using std::vector;
 using std::printf;
 
-//#include <vector>
-//using std::vector;
 
-
-//--[ X-PLANE SDK LIBRARY INCLUDES ]------------------------------------------------------------------------------------
+//--[ X-PLANE SDK LIBRARY HEADERS ]-------------------------------------------------------------------------------------
 // #include "XPLMCamera.h"
 // #include "XPLMDataAccess.h"
 // #include "XPLMDefs.h"

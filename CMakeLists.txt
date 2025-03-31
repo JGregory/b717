@@ -65,6 +65,8 @@ set(SRC
         ${SRC_DIR}/xx_imgui_xp_impl/imgui_xp_impl.h
         ${SRC_DIR}/xx_examples/autopilot_ui.cpp
         ${SRC_DIR}/xx_examples/autopilot_ui.h
+        ${SRC_DIR}/xx_tests/cdatarefs_test.cpp
+        ${SRC_DIR}/xx_tests/cdatarefs_test.h
         ${SRC_DIR}/main.cpp
 )
 

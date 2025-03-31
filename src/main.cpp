@@ -5,16 +5,15 @@
 
 //--[ C/C++ LIBRARY INCLUDES ]------------------------------------------------------------------------------------------
 #include <cstring>
-
+#include <string>
 #include <iostream>
+//#include <vector>
+#include<cstdio>
+
 //using std::cout;
 //using std::endl;
 using std::string;
-
-//#include <vector>
 //using std::vector;
-
-#include<cstdio>
 using std::printf;
 
 
@@ -59,7 +58,7 @@ using std::printf;
 
 
 //--[ TEST HEADERS ]----------------------------------------------------------------------------------------------------
-
+#include "cdatarefs_test.h"
 
 //--[ EXAMPLES HEADERS ]------------------------------------------------------------------------------------------------
 
@@ -111,8 +110,10 @@ PLUGIN_API int XPluginStart(char * outName,
     //----------------------INIT & REGISTRATION ------------------------
     ImGuiWrapper::Init();               // Initialize ImGui
 
-    InitAutopilotUI();                  // Initialize Autopilot UI
-    RegisterAutopilotUI();              // Register Autopilot UI Callback
+    RegisterCustDatarefTest();
+
+    //InitAutopilotUI();                  // Initialize Autopilot UI
+    //RegisterAutopilotUI();              // Register Autopilot UI Callback
 
     return 1;
 
@@ -131,10 +132,10 @@ PLUGIN_API void	XPluginStop(void)
     printf("[B717] XPluginStop: \n");
 
 
+    UnregisterCustDatarefTest();
 
-
-    ImGuiWrapper::Shutdown();           // Cleanup ImGui
-    UnregisterAutopilotUI();          // Unregister Autopilot UI Callback
+    //ImGuiWrapper::Shutdown();           // Cleanup ImGui
+    //UnregisterAutopilotUI();          // Unregister Autopilot UI Callback
 
 
 }
