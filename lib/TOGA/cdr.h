@@ -95,9 +95,10 @@ public:
     int getInt();
     float getFloat();
     double getDouble();
-    int getIntV(int start_index, int num_elements, int *in_values);
+        int getIntV(int start_index, int num_elements, int *in_values);
     float getFloatV(int start_index, int num_elements, float *values);
     int getByte(int start_index, int num_elements, void *values);
+    std::string getByteStr();
 
     // Data Accessor Setters
     void setInt(int in_value);
@@ -105,7 +106,12 @@ public:
     void setDouble(double inValue);
     void setIntV(int start_index, int num_elements, int *in_values);
     void setFloatV(int start_index, int num_elements, float *in_values);
-    void setByte(int start_index, int num_elements, void *in_values);
+    void setByte(int num_elements, void *in_values);
+    void setByteStr(const char* str);
+
+
+
+
 
 
 private:

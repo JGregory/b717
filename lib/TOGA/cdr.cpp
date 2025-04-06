@@ -8,14 +8,14 @@
 #include <string>
 #include <iostream>
 #include <vector>
-//#include <cstdio>
+#include <cstdio>
 #include <cassert>
 
 //using std::cout;
 //using std::endl;
 using std::string;
-//using std::vector;
-//using std::printf;
+using std::vector;
+using std::printf;
 
 
 //--[ X-PLANE SDK LIBRARY HEADERS ]-------------------------------------------------------------------------------------
@@ -400,9 +400,45 @@ double CDataref::getDouble() {
     return XPLMGetDatad(dr_handle);
 }
 
+
+
+
+
+
 int CDataref::getIntV(int start_index, int num_elements, int *values) {
     return XPLMGetDatavi(dr_handle, values, start_index, num_elements);
 }
+
+
+/*
+int CDataref::getIntV(int start_index, int num_elements, int *values) {
+    // Get current dataref array size
+    int array_size = static_cast<int>(XPLMGetDatavi(dr_handle, nullptr, 0, 0));
+    if (array_size <= 0) {
+        return 0;
+    }
+
+    int DR_values[array_size];
+    long count = XPLMGetDatavi(dr_handle, DR_values, 0, array_size);
+
+    //static int values[];
+    //for (int i = 0; i <= num_elements; ++i)
+    //{
+    //    values[i] = DR_values[start_index+i];
+    //}
+
+
+
+    return values;
+}
+*/
+
+
+
+
+
+
+
 
 float CDataref::getFloatV(int start_index, int num_elements, float *values) {
     return XPLMGetDatavf(dr_handle, values, start_index, num_elements); // NOLINT(*-narrowing-conversions)
@@ -411,6 +447,26 @@ float CDataref::getFloatV(int start_index, int num_elements, float *values) {
 int CDataref::getByte(int start_index, int num_elements, void *values) {
     return XPLMGetDatab(dr_handle, values, start_index, num_elements);
 }
+
+std::string CDataref::getByteStr() {
+    // Get current dataref array size
+    int array_size = static_cast<int>(XPLMGetDatab(dr_handle, nullptr, 0, 0));
+    if (array_size <= 0) {
+        return "";
+    }
+
+    std::vector<unsigned char> buffer(array_size, '\0');
+
+    // Read actual contents from the dataref
+    XPLMGetDatab(dr_handle, buffer.data(), 0, array_size);
+
+    // Ensure null-termination
+    buffer[array_size - 1] = '\0';
+
+    return std::string(reinterpret_cast<char*>(buffer.data()));
+}
+
+
 
 
 
@@ -453,7 +509,43 @@ void CDataref::setFloatV(int start_index, int num_elements, float *in_values) {
 }
 
 
-void CDataref::setByte(int start_index, int num_elements, void *in_values) {
-    XPLMSetDatab(dr_handle, in_values, start_index, num_elements);
+void CDataref::setByte(int num_elements, void *in_values) {
+    int array_size = static_cast<int>(b_array_values.size());
+
+    if (num_elements <= 0 || num_elements >= array_size) {
+        return; // Prevent overflow and invalid inputs
+    }
+
+    auto byte_in = static_cast<unsigned char *>(in_values);
+
+    // Clear entire buffer
+    std::fill(b_array_values.begin(), b_array_values.end(), '\0');
+
+    // Copy new bytes
+    for (int i = 0; i < num_elements; ++i) {
+        b_array_values[i] = byte_in[i];
+    }
+
+    // Null-terminate immediately after content
+    b_array_values[num_elements] = '\0';
+
+    // Push updated buffer to X-Plane
+    XPLMSetDatab(dr_handle, b_array_values.data(), 0, num_elements + 1);
 }
+
+void CDataref::setByteStr(const char* str) {
+    if (!str) return;
+
+    int len = static_cast<int>(strlen(str));
+    setByte(len, (void*)str); // Use full-replacement version of setByte
+}
+
+
+
+
+
+
+
+
+
 

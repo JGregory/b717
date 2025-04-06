@@ -4,7 +4,7 @@
 //  ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
 //--[ C/C++ LIBRARY INCLUDES ]------------------------------------------------------------------------------------------
-//#include <cstring>
+#include <cstring>
 //#include <string>
 #include <iostream>
 //#include <vector>
@@ -16,7 +16,7 @@
 //using std::endl;
 using std::string;
 //using std::vector;
-//using std::printf;
+using std::printf;
 
 
 //--[ X-PLANE SDK LIBRARY HEADERS ]-------------------------------------------------------------------------------------
@@ -75,6 +75,7 @@ CDataref toga_cdr_test_intV("toga/b717/misc/xxxx/tst/cdr_test_intV", intv_cdr_T,
 CDataref toga_cdr_test_floatV("toga/b717/misc/xxxx/tst/cdr_test_floatV", floatv_cdr_T, 1, 6, true);
 CDataref toga_cdr_test_floatV2("toga/b717/misc/xxxx/tst/cdr_test_floatV2", floatv_cdr_T, 1, 6, true);
 CDataref toga_cdr_test_byteV("toga/b717/misc/xxxx/tst/cdr_test_byteV", bytev_cdr_T, 1, 30, "custom test byte Dataref", true);
+CDataref toga_cdr_test_byteStr("toga/b717/misc/xxxx/tst/cdr_test_byteStr", bytev_cdr_T, 1, 40, "custom test byte Dataref (String)", true);
 
 
 
@@ -95,7 +96,7 @@ bool do_convenience_getters = true;
 
 void CustomDatarefTest()
 {
-    //==[ CONVENIENCE SETTERS ]===================================================
+    //==[ USING CONVENIENCE SETTERS ]===================================================
 
     // Integer
     toga_cdr_test_int.setInt(7);
@@ -117,25 +118,33 @@ void CustomDatarefTest()
     // Float Array (dynamic)
     static float animation_values[6];
     for (int i = 0; i < 6; ++i) {
-        animation_values[i] = sin(XPLMGetElapsedTime()) * 10.0f + i; // NOLINT(*-narrowing-conversions)
+        animation_values[i] = sin(XPLMGetElapsedTime()) * 10.0f + i;
     }
     toga_cdr_test_floatV2.setFloatV(0, 6, animation_values);
 
-    // Byte (string)
-    constexpr char byte_test[] = "byte test string";
-    // ReSharper disable once CppCStyleCast
-    //toga_cdr_test_byteV.setByte(0, strlen(byte_test) + 1, (void*)byte_test); // NOLINT(*-narrowing-conversions)
-    toga_cdr_test_byteV.setByte(0, 30, (void*)byte_test); // NOLINT(*-narrowing-conversions)
+    // Byte (char)
+    char byte_test[] = "xxxxx";
+    toga_cdr_test_byteV.setByte(strlen(byte_test), byte_test);
+
+    // ByteStr (string)
+    toga_cdr_test_byteStr.setByteStr("test byte string");
 
 
-    //==[ CONVENIENCE GETTERS ]===================================================
+
+
+    //==[ USING CONVENIENCE GETTERS ]===================================================
 
     if (do_convenience_getters)
     {
+        printf("\n");
+        printf("do_convenience_getters......\n");
+        printf("Test Integer Get: %d \n", toga_cdr_test_int.getInt());
+        printf("Test Float Get: %f \n", toga_cdr_test_float.getFloat());
+        printf("Test Double Get: %14.12lf \n", toga_cdr_test_dbl.getDouble());
 
-
-
-
+        int toga_int_array[8];
+        toga_cdr_test_intV.getIntV(2, 1, toga_int_array);
+        printf("Test Integer Array Get[0]: %d \n", toga_int_array[0]);
 
 
         do_convenience_getters = false;
