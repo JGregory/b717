@@ -78,15 +78,17 @@ public:
     int i_value;
     float f_value;
     double d_value;
+    size_t i_array_capacity = 0;
+    size_t f_array_capacity = 0;
     vector<int> i_array_values;
     vector<float> f_array_values;
     vector<unsigned char> b_array_values;
 
     // Constructors
     CDataref(string p_dr_name, int p_dr_type, int p_dr_is_writeable);   // int/float/double
-    CDataref(string p_dr_name, int p_dr_type, int p_dr_is_writeable, size_t p_i_array_size);    // int array
-    CDataref(string p_dr_name, int p_dr_type, int p_dr_is_writeable, size_t p_f_array_size, bool p_is_float_array); // float array
-    CDataref(string p_dr_name, int p_dr_type, int p_dr_is_writeable, size_t p_b_array_size, const char* initial_value, bool p_is_byte_array);  // byte array
+    CDataref(string p_dr_name, int p_dr_type, size_t p_i_array_size, int p_dr_is_writeable);    // int array
+    CDataref(string p_dr_name, int p_dr_type, size_t p_f_array_size, bool p_is_float_array, int p_dr_is_writeable); // float array
+    CDataref(string p_dr_name, int p_dr_type, size_t p_b_array_size, const char* initial_value, bool p_is_byte_array, int p_dr_is_writeable);  // byte array
 
     // Destructor
     ~CDataref() = default;
@@ -95,21 +97,44 @@ public:
     int getInt();
     float getFloat();
     double getDouble();
-        int getIntV(int start_index, int num_elements, int *in_values);
+
+    int getIntV(int start_index, int num_elements, int *in_values);
+    std::vector<int> getIntV(int start_index, int num_elements);
+
     float getFloatV(int start_index, int num_elements, float *values);
+    std::vector<float> getFloatV(int start_index, int num_elements);
+
     int getByte(int start_index, int num_elements, void *values);
     std::string getByteStr();
 
-    // Data Accessor Setters
+    // Convenience Data Accessor Setters
     void setInt(int in_value);
     void setFloat(float inValue);
     void setDouble(double inValue);
-    void setIntV(int start_index, int num_elements, int *in_values);
-    void setFloatV(int start_index, int num_elements, float *in_values);
+
+    void setIntV(const std::vector<int>& values);
+    void setIntV(int start_index, int num_elements, const std::vector<int>& values);
+    void setIntV(int start_index, int num_elements, std::initializer_list<int> values);
+
+    void setFloatV(const std::vector<float>& values);
+    void setFloatV(int start_index, int num_elements, const std::vector<float>& values);
+    void setFloatV(int start_index, int num_elements, std::initializer_list<float> values);
+
     void setByte(int num_elements, void *in_values);
     void setByteStr(const char* str);
 
+    /*
+        Primary Difference: std::vector vs. std::initializer_list
+        –––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+        Feature	                std::vector<T>	                            std::initializer_list<T>
+        Dynamic allocation  	Yes — resizable at runtime	                No — fixed-size, copy-once container
+        Used for...	            Dynamic data sources, variable input	    Fixed literal sets {1, 2, 3}
+        Modifiable	            Yes — supports push_back, resize, etc.	    No — read-only
+        Memory layout	        Heap-allocated contiguous buffer	        Temporary stack-allocated block
+        Constructed by...	    std::vector<T> v = {1, 2, 3};	            Implicit via {}
+        Lifetime	            Explicit object (you control lifetime)	    Very short-lived (temporary binding)
 
+     */
 
 
 

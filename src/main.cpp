@@ -54,7 +54,7 @@ using std::printf;
 
 
 //--[ AIRCRAFT HEADERS ]------------------------------------------------------------------------------------------------
-#include "autopilot_ui.h"
+#include "cdatarefs.h"
 
 
 //--[ TEST HEADERS ]----------------------------------------------------------------------------------------------------
@@ -114,6 +114,7 @@ PLUGIN_API int XPluginStart(char * outName,
 
     //InitAutopilotUI();                  // Initialize Autopilot UI
     //RegisterAutopilotUI();              // Register Autopilot UI Callback
+
 
     return 1;
 

@@ -144,16 +144,16 @@
  *        paug = POWER PLANT:PROPULSION AUGMENTATION
  *
  *
- *      [TYPE]
- *      ––––––
- *        anm = animation
- *        mnp = manipulator
- *        ann = annunciator
- *        dat = data
- *        lit = LIT value
- *        exl = example
- *        tst = test
- *        dbg = debug
+ *    [TYPE]
+*     ––––––
+ *    anm = animation
+ *    mnp = manipulator
+ *    ann = annunciator
+ *    dat = data
+ *    lit = LIT value
+ *    exl = example
+ *    tst = test
+ *    dbg = debug
  *
  */
 

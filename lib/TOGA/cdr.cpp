@@ -118,13 +118,15 @@ CDataref::CDataref(
 CDataref::CDataref(
     string p_dr_name,
     int p_dr_type,
-    int p_dr_is_writeable,
-    size_t p_i_array_size
+    size_t p_i_array_size,
+    int p_dr_is_writeable
 ) :
     dr_name{p_dr_name},
     dr_type{p_dr_type},
     dr_is_writeable{p_dr_is_writeable},
+    i_array_capacity(p_i_array_size),
     i_array_values(p_i_array_size),
+
     xp_dr_type(xplmType_IntArray)
 {
 
@@ -145,19 +147,18 @@ CDataref::CDataref(
 
 }
 
-
-
 // Float Array Type Constructor
 CDataref::CDataref(
     string p_dr_name,
     int p_dr_type,
-    int p_dr_is_writeable,
     size_t p_f_array_size,
-    bool p_is_float_array
+    bool p_is_float_array,
+    int p_dr_is_writeable
 ) :
     dr_name{p_dr_name},
     dr_type{p_dr_type},
     dr_is_writeable{p_dr_is_writeable},
+    f_array_capacity(p_f_array_size),
     f_array_values(p_f_array_size),
     xp_dr_type(xplmType_FloatArray)
 {
@@ -179,16 +180,14 @@ CDataref::CDataref(
 
 }
 
-
-
 // Byte Array Constructor
 CDataref::CDataref(
     string p_dr_name,
     int p_dr_type,
-    int p_dr_is_writeable,
     size_t p_b_array_size,
     const char* initial_value,
-    bool p_is_byte_array
+    bool p_is_byte_array,
+    int p_dr_is_writeable
 ) :
     dr_name{p_dr_name},
     dr_type{p_dr_type},
@@ -400,49 +399,28 @@ double CDataref::getDouble() {
     return XPLMGetDatad(dr_handle);
 }
 
-
-
-
-
-
 int CDataref::getIntV(int start_index, int num_elements, int *values) {
     return XPLMGetDatavi(dr_handle, values, start_index, num_elements);
 }
 
-
-/*
-int CDataref::getIntV(int start_index, int num_elements, int *values) {
-    // Get current dataref array size
-    int array_size = static_cast<int>(XPLMGetDatavi(dr_handle, nullptr, 0, 0));
-    if (array_size <= 0) {
-        return 0;
-    }
-
-    int DR_values[array_size];
-    long count = XPLMGetDatavi(dr_handle, DR_values, 0, array_size);
-
-    //static int values[];
-    //for (int i = 0; i <= num_elements; ++i)
-    //{
-    //    values[i] = DR_values[start_index+i];
-    //}
-
-
-
-    return values;
+std::vector<int> CDataref::getIntV(int start_index, int num_elements) {
+    std::vector<int> result(num_elements, 0);
+    int read_count = XPLMGetDatavi(dr_handle, result.data(), start_index, num_elements);
+    result.resize(read_count); // In case fewer values were actually read
+    return result;
 }
-*/
-
-
-
-
-
-
-
 
 float CDataref::getFloatV(int start_index, int num_elements, float *values) {
     return XPLMGetDatavf(dr_handle, values, start_index, num_elements); // NOLINT(*-narrowing-conversions)
 }
+
+std::vector<float> CDataref::getFloatV(int start_index, int num_elements) {
+    std::vector<float> result(num_elements, 0.0f);
+    int read_count = XPLMGetDatavf(dr_handle, result.data(), start_index, num_elements);
+    result.resize(read_count); // In case fewer values were actually read
+    return result;
+}
+
 
 int CDataref::getByte(int start_index, int num_elements, void *values) {
     return XPLMGetDatab(dr_handle, values, start_index, num_elements);
@@ -483,31 +461,103 @@ void CDataref::setDouble(double in_value) {
     XPLMSetDatad(dr_handle, in_value);
 }
 
-void CDataref::setIntV(int start_index, int num_elements, int *in_values) {
-    // Update internal array first
-    if (start_index + num_elements <= i_array_values.size()) {
-        for (int i = 0; i < num_elements; ++i) {
-            i_array_values[start_index + i] = in_values[i];
-        }
+void CDataref::setIntV(const std::vector<int>& values) {
+    int write_count = std::min(static_cast<int>(values.size()), static_cast<int>(i_array_capacity));
+
+    for (int i = 0; i < write_count; ++i) {
+        i_array_values[i] = values[i];
     }
 
-    // Push updated values to X-Plane
-    XPLMSetDatavi(dr_handle, i_array_values.data(), 0, static_cast<int>(i_array_values.size()));
+    XPLMSetDatavi(dr_handle, const_cast<int*>(values.data()), 0, write_count);
 }
 
-
-void CDataref::setFloatV(int start_index, int num_elements, float *in_values) {
-    // Update internal array first
-    if (start_index + num_elements <= f_array_values.size()) {
-        for (int i = 0; i < num_elements; ++i) {
-            f_array_values[start_index + i] = in_values[i];
-        }
+void CDataref::setIntV(int start_index, int num_elements, const std::vector<int>& values) {
+    if (start_index < 0 || num_elements <= 0 || static_cast<size_t>(start_index) >= i_array_capacity) {
+        return;
     }
 
-    // Push updated values to X-Plane
-    XPLMSetDatavf(dr_handle, f_array_values.data(), 0, static_cast<int>(f_array_values.size()));
+    int write_count = std::min({
+        num_elements,
+        static_cast<int>(values.size()),
+        static_cast<int>(i_array_capacity - start_index)
+    });
+
+    for (int i = 0; i < write_count; ++i) {
+        i_array_values[start_index + i] = values[i];
+    }
+
+    assert(write_count <= static_cast<int>(values.size()));
+
+    XPLMSetDatavi(dr_handle, const_cast<int*>(values.data()), start_index, write_count);
 }
 
+void CDataref::setIntV(int start_index, int num_elements, std::initializer_list<int> values) {
+    if (start_index < 0 || num_elements <= 0 || static_cast<size_t>(start_index) >= i_array_capacity) {
+        return;
+    }
+
+    int write_count = std::min({
+        num_elements,
+        static_cast<int>(values.size()),
+        static_cast<int>(i_array_capacity - start_index)
+    });
+
+    auto it = values.begin();
+    for (int i = 0; i < write_count; ++i, ++it) {
+        i_array_values[start_index + i] = *it;
+    }
+
+    XPLMSetDatavi(dr_handle, const_cast<int*>(values.begin()), start_index, write_count);
+}
+
+void CDataref::setFloatV(const std::vector<float>& values) {
+    int write_count = std::min(static_cast<int>(values.size()), static_cast<int>(f_array_capacity));
+
+    for (int i = 0; i < write_count; ++i) {
+        f_array_values[i] = values[i];
+    }
+
+    XPLMSetDatavf(dr_handle, const_cast<float*>(values.data()), 0, write_count);
+}
+
+void CDataref::setFloatV(int start_index, int num_elements, const std::vector<float>& values) {
+    if (start_index < 0 || num_elements <= 0 || static_cast<size_t>(start_index) >= f_array_capacity) {
+        return;
+    }
+
+    int write_count = std::min({
+        num_elements,
+        static_cast<int>(values.size()),
+        static_cast<int>(f_array_capacity - start_index)
+    });
+
+    for (int i = 0; i < write_count; ++i) {
+        f_array_values[start_index + i] = values[i];
+    }
+
+    assert(write_count <= static_cast<int>(values.size()));
+
+    XPLMSetDatavf(dr_handle, const_cast<float*>(values.data()), start_index, write_count);
+}
+
+void CDataref::setFloatV(int start_index, int num_elements, std::initializer_list<float> values) {
+    if (start_index < 0 || num_elements <= 0 || static_cast<size_t>(start_index) >= f_array_capacity) {
+        return;
+    }
+
+    int write_count = std::min({
+        num_elements,
+        static_cast<int>(values.size()),
+        static_cast<int>(f_array_capacity - start_index)
+    });
+
+    auto it = values.begin();
+    for (int i = 0; i < write_count; ++i, ++it) {
+        f_array_values[start_index + i] = *it;
+    }
+
+    XPLMSetDatavf(dr_handle, const_cast<float*>(values.begin()), start_index, write_count);
+}
 
 void CDataref::setByte(int num_elements, void *in_values) {
     int array_size = static_cast<int>(b_array_values.size());
@@ -539,13 +589,6 @@ void CDataref::setByteStr(const char* str) {
     int len = static_cast<int>(strlen(str));
     setByte(len, (void*)str); // Use full-replacement version of setByte
 }
-
-
-
-
-
-
-
 
 
 

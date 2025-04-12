@@ -66,9 +66,9 @@
 
 //======================================================================================================================
 
-
-//extern CDataref b717dr_aflt_ap_hdg_knob_mnp;
-//extern CDataref b717dr_aflt_ap_hdg_knob_anm;
+// Global Datarefs
+extern CDataref b717dr_aflt_ap_hdg_knob_mnp;
+extern CDataref b717dr_aflt_ap_hdg_knob_anm;
 
 
 
