@@ -447,21 +447,26 @@ std::string CDataref::getByteStr() {
 
 
 
-
-
-void CDataref::setInt(int inValue){
+void CDataref::setInt(int inValue) {
+    if (!dr_is_writeable) return;
+    i_value = inValue;
     XPLMSetDatai(dr_handle, inValue);
 }
 
-void CDataref::setFloat(float in_value) {
-    XPLMSetDataf(dr_handle, in_value);
+void CDataref::setFloat(float inValue) {
+    if (!dr_is_writeable) return;
+    f_value = inValue;
+    XPLMSetDataf(dr_handle, inValue);
 }
 
-void CDataref::setDouble(double in_value) {
-    XPLMSetDatad(dr_handle, in_value);
+void CDataref::setDouble(double inValue) {
+    if (!dr_is_writeable) return;
+    d_value = inValue;
+    XPLMSetDatad(dr_handle, inValue);
 }
 
 void CDataref::setIntV(const std::vector<int>& values) {
+    if (!dr_is_writeable) return;
     int write_count = std::min(static_cast<int>(values.size()), static_cast<int>(i_array_capacity));
 
     for (int i = 0; i < write_count; ++i) {
@@ -472,6 +477,7 @@ void CDataref::setIntV(const std::vector<int>& values) {
 }
 
 void CDataref::setIntV(int start_index, int num_elements, const std::vector<int>& values) {
+    if (!dr_is_writeable) return;
     if (start_index < 0 || num_elements <= 0 || static_cast<size_t>(start_index) >= i_array_capacity) {
         return;
     }
@@ -492,6 +498,7 @@ void CDataref::setIntV(int start_index, int num_elements, const std::vector<int>
 }
 
 void CDataref::setIntV(int start_index, int num_elements, std::initializer_list<int> values) {
+    if (!dr_is_writeable) return;
     if (start_index < 0 || num_elements <= 0 || static_cast<size_t>(start_index) >= i_array_capacity) {
         return;
     }
@@ -511,6 +518,7 @@ void CDataref::setIntV(int start_index, int num_elements, std::initializer_list<
 }
 
 void CDataref::setFloatV(const std::vector<float>& values) {
+    if (!dr_is_writeable) return;
     int write_count = std::min(static_cast<int>(values.size()), static_cast<int>(f_array_capacity));
 
     for (int i = 0; i < write_count; ++i) {
@@ -521,6 +529,7 @@ void CDataref::setFloatV(const std::vector<float>& values) {
 }
 
 void CDataref::setFloatV(int start_index, int num_elements, const std::vector<float>& values) {
+    if (!dr_is_writeable) return;
     if (start_index < 0 || num_elements <= 0 || static_cast<size_t>(start_index) >= f_array_capacity) {
         return;
     }
@@ -541,6 +550,7 @@ void CDataref::setFloatV(int start_index, int num_elements, const std::vector<fl
 }
 
 void CDataref::setFloatV(int start_index, int num_elements, std::initializer_list<float> values) {
+    if (!dr_is_writeable) return;
     if (start_index < 0 || num_elements <= 0 || static_cast<size_t>(start_index) >= f_array_capacity) {
         return;
     }
@@ -560,6 +570,7 @@ void CDataref::setFloatV(int start_index, int num_elements, std::initializer_lis
 }
 
 void CDataref::setByte(int num_elements, void *in_values) {
+    if (!dr_is_writeable) return;
     int array_size = static_cast<int>(b_array_values.size());
 
     if (num_elements <= 0 || num_elements >= array_size) {
@@ -584,6 +595,7 @@ void CDataref::setByte(int num_elements, void *in_values) {
 }
 
 void CDataref::setByteStr(const char* str) {
+    if (!dr_is_writeable || !str) return;
     if (!str) return;
 
     int len = static_cast<int>(strlen(str));
@@ -592,3 +604,22 @@ void CDataref::setByteStr(const char* str) {
 
 
 
+
+
+
+// Examples
+/*
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/

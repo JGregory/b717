@@ -67,7 +67,8 @@ using std::vector;
 //======================================================================================================================
 
 
-class CDataref {
+class CDataref
+{
 
 public:
     static vector<CDataref *> custom_datarefs;

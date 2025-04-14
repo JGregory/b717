@@ -51,6 +51,7 @@ using std::printf;
 #include "debug_flag.h"
 #include "version.h"
 #include "imgui_wrapper.h"
+#include "xdr.h"
 
 
 //--[ AIRCRAFT HEADERS ]------------------------------------------------------------------------------------------------
@@ -58,7 +59,8 @@ using std::printf;
 
 
 //--[ TEST HEADERS ]----------------------------------------------------------------------------------------------------
-#include "cdatarefs_test.h"
+#include "tests_xdatarefs.h"
+#include "tests_cdatarefs.h"
 
 //--[ EXAMPLES HEADERS ]------------------------------------------------------------------------------------------------
 
@@ -110,6 +112,8 @@ PLUGIN_API int XPluginStart(char * outName,
     //----------------------INIT & REGISTRATION ------------------------
     ImGuiWrapper::Init();               // Initialize ImGui
 
+    RegisterXDRFLCB();
+    RegisterXDatarefTest();
     RegisterCustDatarefTest();
 
     //InitAutopilotUI();                  // Initialize Autopilot UI
@@ -132,7 +136,8 @@ PLUGIN_API void	XPluginStop(void)
 {
     printf("[B717] XPluginStop: \n");
 
-
+    UnregisterXDRFLCB();
+    UnregisterXDatarefTest();
     UnregisterCustDatarefTest();
 
     //ImGuiWrapper::Shutdown();           // Cleanup ImGui

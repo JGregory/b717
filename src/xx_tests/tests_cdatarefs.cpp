@@ -5,16 +5,16 @@
 
 //--[ C/C++ LIBRARY INCLUDES ]------------------------------------------------------------------------------------------
 #include <cstring>
-#include <string>
-#include <iostream>
+//#include <string>
+//#include <iostream>
 //#include <vector>
-//#include <cstdio>
+#include <cstdio>
 //#include <cassert>
-#include <cmath>
+//#include <cmath>
 
 //using std::cout;
 //using std::endl;
-using std::string;
+//using std::string;
 //using std::vector;
 using std::printf;
 
@@ -31,7 +31,7 @@ using std::printf;
 // #include "XPLMNavigation.h"
 // #include "XPLMPlanes.h"
 // #include "XPLMPlugin.h"
-#include "XPLMProcessing.h"
+// #include "XPLMProcessing.h"
 // #include "XPLMScenery.h"
 // #include "XPLMSound.h"
 // #include "XPLMUtilities.h"
@@ -50,15 +50,13 @@ using std::printf;
 
 
 //--[ TOGA LIBRARY HEADERS ]--------------------------------------------------------------------------------------------
-#include "datatypes.h"
 
 
 //--[ AIRCRAFT HEADERS ]------------------------------------------------------------------------------------------------
-#include "cdatarefs.h"
 
 
 //--[ TEST HEADERS ]----------------------------------------------------------------------------------------------------
-#include "cdatarefs_test.h"
+#include "cdr.h"
 
 
 //--[ EXAMPLES HEADERS ]------------------------------------------------------------------------------------------------
@@ -68,7 +66,7 @@ using std::printf;
 
 //======================================================================================================================
 
-
+/*
 bool run_cdr_test = false;      // Change to true to run the test... output goes to terminal window
 
 
@@ -92,16 +90,18 @@ CDataref toga_cdr_test_byteStr("toga/b717/misc/xxxx/tst/cdr_test_byteStr", bytev
 float CustomDatarefTestFLCB(float inElapsedSinceLastCall, float inElapsedTimeSinceLastFlightLoop, int inCounter, void* inRefcon)
 {
     CustomDatarefTest();
-
     return -1;
 }
 
 
 
-bool do_convenience_getters = true;
+bool do_cdr_convenience_getters = true;
 
 void CustomDatarefTest()
 {
+
+    //==[ USING CONVENIENCE SETTERS ]===================================================
+
 
     //-- Integer
     toga_cdr_test_int.setInt(7);
@@ -170,10 +170,10 @@ void CustomDatarefTest()
 
     //==[ USING CONVENIENCE GETTERS ]===================================================
 
-    if (do_convenience_getters)
+    if (do_cdr_convenience_getters)
     {
         printf("\n");
-        printf("do_convenience_getters......\n");
+        printf("do_cdr_convenience_getters......\n");
 
         // Integer
         printf("Test Integer Get: %d \n", toga_cdr_test_int.getInt());
@@ -207,7 +207,7 @@ void CustomDatarefTest()
         printf("Test String Get: %s\n", test_string.c_str());
 
 
-        do_convenience_getters = false;     // Only run the getters once
+        do_cdr_convenience_getters = false;     // Only run the getters once
     }
 
 }
@@ -228,3 +228,55 @@ void UnregisterCustDatarefTest(){
         XPLMUnregisterFlightLoopCallback(CustomDatarefTestFLCB,	nullptr);
     }
 };
+
+*/
+
+
+
+
+void test_cdataref_scalars() {
+    CDataref int_dr("sim/custom/int_dr", xplmType_Int, true);
+    int_dr.setInt(42);
+    printf("Custom Int: %d\n", int_dr.getInt());
+
+    CDataref float_dr("sim/custom/float_dr", xplmType_Float, true);
+    float_dr.setFloat(3.14f);
+    printf("Custom Float: %.2f\n", float_dr.getFloat());
+
+    CDataref double_dr("sim/custom/double_dr", xplmType_Double, true);
+    double_dr.setDouble(12345.678);
+    printf("Custom Double: %.3f\n", double_dr.getDouble());
+}
+
+void test_cdataref_arrays() {
+    CDataref int_array("sim/custom/int_array", xplmType_IntArray, 3, true);
+    int_array.setIntV({1, 2, 3});
+    auto ints = int_array.getIntV(0, 3);
+    printf("Custom Int Array: %d %d %d\n", ints[0], ints[1], ints[2]);
+
+    CDataref float_array("sim/custom/float_array", xplmType_FloatArray, 2, true);
+    float_array.setFloatV({4.4f, 5.5f});
+    auto floats = float_array.getFloatV(0, 2);
+    printf("Custom Float Array: %.1f %.1f\n", floats[0], floats[1]);
+}
+
+void test_cdataref_bytestring() {
+    const char* test_str = "hello world";
+    CDataref byte_dr("sim/custom/byte_str", xplmType_Data, strlen(test_str) + 1, test_str, true);
+    printf("Custom Byte String: %s\n", byte_dr.getByteStr().c_str());
+}
+
+#ifdef ENABLE_TESTS
+void run_xdr_tests() {
+    try {
+        test_xdataref_scalars();
+        test_xdataref_arrays();
+        test_xdataref_string();
+        printf("XDataref tests passed.\n");
+    } catch (const std::exception& e) {
+        printf("XDataref tests failed: %s\n", e.what());
+    }
+}
+#endif
+
+
