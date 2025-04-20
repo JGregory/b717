@@ -65,9 +65,9 @@
 //======================================================================================================================
 
 /*
- * TOGA DATAREF STRUCTURE EXAMPLE:
- * –––––––––––––––––––––––––––––––
- *    toga/b717/[CATEGORY]/[ATA GROUP]/[TYPE]/[SUFFIX]
+ * TOGA DATAREF NAME (STRING) STRUCTURE:
+ * –––––––––––––––––––––––––––––––------------------------------
+ *    Example: toga/b717/[CATEGORY]/[ATA GROUP]/[TYPE]/[SUFFIX]
  *
  *    [CATEGORY]
  *    ––––––––––
@@ -143,17 +143,21 @@
  *        agbx = POWER PLANT:ACCESSORY GEAR BOXES
  *        paug = POWER PLANT:PROPULSION AUGMENTATION
  *
+ *      NOT APPLICABLE:
+ *       xxxx
+ *
  *
  *    [TYPE]
-*     ––––––
- *    anm = animation
- *    mnp = manipulator
- *    ann = annunciator
- *    dat = data
- *    lit = LIT value
- *    exl = example
- *    tst = test
- *    dbg = debug
+ *     ––––––
+ *     mnp = manipulator
+ *     cmd = command
+ *     anm = animation
+ *     ann = annunciator
+ *     dat = data
+ *     lit = LIT value
+ *     xpl = example
+ *     tst = test
+ *     dbg = debug
  *
  */
 
@@ -161,5 +165,7 @@
 // Example:
 CDataref b717dr_aflt_ap_hdg_knob_mnp("toga/b717/acft/aflt/mnp/ap_hdg_knob", float_cdr_T, 1);
 CDataref b717dr_aflt_ap_hdg_knob_anm("toga/b717/acft/aflt/anm/ap_hdg_knob", float_cdr_T, 1);
+
+
 
 

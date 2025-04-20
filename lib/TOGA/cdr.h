@@ -32,7 +32,7 @@ using std::vector;
 // #include "XPLMMenus.h"
 // #include "XPLMNavigation.h"
 // #include "XPLMPlanes.h"
-// #include "XPLMPlugin.h"
+#include "XPLMPlugin.h"
 // #include "XPLMProcessing.h"
 // #include "XPLMScenery.h"
 // #include "XPLMSound.h"
@@ -67,6 +67,9 @@ using std::vector;
 //======================================================================================================================
 
 
+#define MSG_ADD_DATAREF 0x01000000
+
+
 class CDataref
 {
 
@@ -94,45 +97,48 @@ public:
     // Destructor
     ~CDataref() = default;
 
+    // One-Time Universal fetch All Values for a Dataref (uses existing array size as needed)
+    void fetchNow();
+
     // Convenience Data Accessor Getters
     int getInt();
     float getFloat();
     double getDouble();
 
     int getIntV(int start_index, int num_elements, int *in_values);
-    std::vector<int> getIntV(int start_index, int num_elements);
+    vector<int> getIntV(int start_index, int num_elements);
 
     float getFloatV(int start_index, int num_elements, float *values);
-    std::vector<float> getFloatV(int start_index, int num_elements);
+    vector<float> getFloatV(int start_index, int num_elements);
 
     int getByte(int start_index, int num_elements, void *values);
-    std::string getByteStr();
+    string getByteStr();
 
     // Convenience Data Accessor Setters
     void setInt(int in_value);
     void setFloat(float inValue);
     void setDouble(double inValue);
 
-    void setIntV(const std::vector<int>& values);
-    void setIntV(int start_index, int num_elements, const std::vector<int>& values);
+    void setIntV(const vector<int>& values);
+    void setIntV(int start_index, int num_elements, const vector<int>& values);
     void setIntV(int start_index, int num_elements, std::initializer_list<int> values);
 
-    void setFloatV(const std::vector<float>& values);
-    void setFloatV(int start_index, int num_elements, const std::vector<float>& values);
+    void setFloatV(const vector<float>& values);
+    void setFloatV(int start_index, int num_elements, const vector<float>& values);
     void setFloatV(int start_index, int num_elements, std::initializer_list<float> values);
 
     void setByte(int num_elements, void *in_values);
     void setByteStr(const char* str);
 
     /*
-        Primary Difference: std::vector vs. std::initializer_list
+        Primary Difference: vector vs. std::initializer_list
         –––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-        Feature	                std::vector<T>	                            std::initializer_list<T>
+        Feature	                vector<T>	                            std::initializer_list<T>
         Dynamic allocation  	Yes — resizable at runtime	                No — fixed-size, copy-once container
         Used for...	            Dynamic data sources, variable input	    Fixed literal sets {1, 2, 3}
         Modifiable	            Yes — supports push_back, resize, etc.	    No — read-only
         Memory layout	        Heap-allocated contiguous buffer	        Temporary stack-allocated block
-        Constructed by...	    std::vector<T> v = {1, 2, 3};	            Implicit via {}
+        Constructed by...	    vector<T> v = {1, 2, 3};	            Implicit via {}
         Lifetime	            Explicit object (you control lifetime)	    Very short-lived (temporary binding)
 
      */
@@ -160,6 +166,7 @@ private:
     static void writeByte(void *inWriteRefcon, void *inValue, int p_begin_index, int p_range);
 };
 
-
+void RegisterCDRtoDREFLCB();
+void UnregisterRegisterCDRtoDREFLCB();
 
 #endif //CDR_H

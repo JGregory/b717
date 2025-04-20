@@ -4,18 +4,21 @@
 //  ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
 
-#ifndef XDATAREFS_TEST_H
-#define XDATAREFS_TEST_H
+#ifndef TESTS_ALL_H
+#define TESTS_ALL_H
 
 
 #ifdef ENABLE_TESTS
 
-void test_xdataref_scalars();
-void test_xdataref_arrays();
-void test_xdataref_string();
-void run_xdr_tests();
+// Master test entry point
+void runAllTests();
+
+// Command registration helpers
+void registerTestCommand();
+void unregisterTestCommand();
 
 #endif
 
 
-#endif //XDATAREFS_TEST_H
+
+#endif //TESTS_ALL_H

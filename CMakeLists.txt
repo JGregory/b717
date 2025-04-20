@@ -13,6 +13,20 @@ set_target_properties( PROPERTIES
 project(b717)
 
 
+
+# ENABLE OPTIONAL TEST HARNESS
+# Leave Option set to "ON"
+# See TestingReadMe.md to set up Clion for testing
+# Once setup you can toggle testing on and off by selecting DEBUG or RELEASE in Clion
+option(ENABLE_TESTS "Enable unit testing support" ON)
+
+if(ENABLE_TESTS)
+    message(STATUS "Building with ENABLE_TESTS")
+    add_definitions(-DENABLE_TESTS)
+endif()
+
+
+
 # FLAGS FOR COPYING PLUGIN TO LOCAL ACF PLUGIN DIRECTORY
 set(LOCAL_XP 1)
 
@@ -65,10 +79,12 @@ set(SRC
         ${SRC_DIR}/xx_imgui_xp_impl/imgui_xp_impl.h
         ${SRC_DIR}/xx_examples/autopilot_ui.cpp
         ${SRC_DIR}/xx_examples/autopilot_ui.h
-        ${SRC_DIR}/xx_tests/cdatarefs_test.cpp
-        ${SRC_DIR}/xx_tests/cdatarefs_test.h
-        ${SRC_DIR}/xx_tests/xdatarefs_test.cpp
-        ${SRC_DIR}/xx_tests/xdatarefs_test.h
+        #${SRC_DIR}/xx_tests/tests_all.cpp
+        #${SRC_DIR}/xx_tests/tests_all.h
+        #${SRC_DIR}/xx_tests/tests_cdatarefs.cpp
+        #${SRC_DIR}/xx_tests/tests_cdatarefs.h
+        #${SRC_DIR}/xx_tests/tests_xdatarefs.cpp
+        #${SRC_DIR}/xx_tests/tests_xdatarefs.h
         ${SRC_DIR}/main.cpp
 )
 
@@ -76,6 +92,15 @@ set(ALL_SRC
         ${TOGA_LIB}
         ${SRC}
 )
+
+# APPEND TEST FILES ONLY IF ENABLE_TESTS IS ON in CMake
+if(ENABLE_TESTS)
+    list(APPEND ALL_SRC
+            ${SRC_DIR}/xx_tests/tests_all.cpp
+            ${SRC_DIR}/xx_tests/tests_cdatarefs.cpp
+            ${SRC_DIR}/xx_tests/tests_xdatarefs.cpp
+    )
+endif()
 
 add_library(${CMAKE_PROJECT_NAME} SHARED ${ALL_SRC})
 

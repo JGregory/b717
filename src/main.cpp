@@ -52,6 +52,7 @@ using std::printf;
 #include "version.h"
 #include "imgui_wrapper.h"
 #include "xdr.h"
+#include "cdr.h"
 
 
 //--[ AIRCRAFT HEADERS ]------------------------------------------------------------------------------------------------
@@ -59,8 +60,8 @@ using std::printf;
 
 
 //--[ TEST HEADERS ]----------------------------------------------------------------------------------------------------
-#include "tests_xdatarefs.h"
-#include "tests_cdatarefs.h"
+#include "tests_all.h"
+
 
 //--[ EXAMPLES HEADERS ]------------------------------------------------------------------------------------------------
 
@@ -110,15 +111,22 @@ PLUGIN_API int XPluginStart(char * outName,
 
 
     //----------------------INIT & REGISTRATION ------------------------
-    ImGuiWrapper::Init();               // Initialize ImGui
+    ImGuiWrapper::Init();                   // Initialize ImGui
 
-    RegisterXDRFLCB();
-    RegisterXDatarefTest();
-    RegisterCustDatarefTest();
+    RegisterXDRFLCB();                      // X-Plane Datarefs
+    RegisterCDRtoDREFLCB();                 // Custom Datarefs to Dataref Editor
 
-    //InitAutopilotUI();                  // Initialize Autopilot UI
-    //RegisterAutopilotUI();              // Register Autopilot UI Callback
+    //InitAutopilotUI();                    // Initialize Autopilot UI
+    //RegisterAutopilotUI();                // Register Autopilot UI Callback
 
+
+
+
+
+
+    #ifdef ENABLE_TESTS
+        registerTestCommand();
+    #endif
 
     return 1;
 
@@ -136,13 +144,19 @@ PLUGIN_API void	XPluginStop(void)
 {
     printf("[B717] XPluginStop: \n");
 
-    UnregisterXDRFLCB();
-    UnregisterXDatarefTest();
-    UnregisterCustDatarefTest();
+    UnregisterXDRFLCB();                    // X-Plane Datarefs
+    UnregisterRegisterCDRtoDREFLCB();       // Custom Datarefs to Dataref Editor
 
-    //ImGuiWrapper::Shutdown();           // Cleanup ImGui
-    //UnregisterAutopilotUI();          // Unregister Autopilot UI Callback
+    //ImGuiWrapper::Shutdown();             // Cleanup ImGui
+    //UnregisterAutopilotUI();              // Unregister Autopilot UI Callback
 
+
+
+
+
+    #ifdef ENABLE_TESTS
+        unregisterTestCommand();
+    #endif
 
 }
 

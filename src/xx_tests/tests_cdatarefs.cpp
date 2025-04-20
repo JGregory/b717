@@ -50,7 +50,7 @@ using std::printf;
 
 
 //--[ TOGA LIBRARY HEADERS ]--------------------------------------------------------------------------------------------
-
+#include "datatypes.h"
 
 //--[ AIRCRAFT HEADERS ]------------------------------------------------------------------------------------------------
 
@@ -63,198 +63,30 @@ using std::printf;
 
 
 
-
 //======================================================================================================================
-
-/*
-bool run_cdr_test = false;      // Change to true to run the test... output goes to terminal window
-
-
-CDataref toga_cdr_test_int("toga/b717/misc/xxxx/tst/cdr_test_int", int_cdr_T, 1);
-CDataref toga_cdr_test_float("toga/b717/misc/xxxx/tst/cdr_test_float", float_cdr_T, 1);
-CDataref toga_cdr_test_dbl("toga/b717/misc/xxxx/tst/cdr_test_dbl", double_cdr_T, 1);
-CDataref toga_cdr_test_intV("toga/b717/misc/xxxx/tst/cdr_test_intV", intv_cdr_T, 8, 1);
-CDataref toga_cdr_test_floatV("toga/b717/misc/xxxx/tst/cdr_test_floatV", floatv_cdr_T, 5, true, 1);
-CDataref toga_cdr_test_floatV2("toga/b717/misc/xxxx/tst/cdr_test_floatV2", floatv_cdr_T, 6, true, 1);
-CDataref toga_cdr_test_byteV("toga/b717/misc/xxxx/tst/cdr_test_byteV", bytev_cdr_T, 30, "custom test byte Dataref", true, 1);
-CDataref toga_cdr_test_byteStr("toga/b717/misc/xxxx/tst/cdr_test_byteStr", bytev_cdr_T, 40, "custom test byte Dataref (String)", true, 1);
-
-
-
-
-
-
-
-
-
-float CustomDatarefTestFLCB(float inElapsedSinceLastCall, float inElapsedTimeSinceLastFlightLoop, int inCounter, void* inRefcon)
-{
-    CustomDatarefTest();
-    return -1;
-}
-
-
-
-bool do_cdr_convenience_getters = true;
-
-void CustomDatarefTest()
-{
-
-    //==[ USING CONVENIENCE SETTERS ]===================================================
-
-
-    //-- Integer
-    toga_cdr_test_int.setInt(7);
-
-    //-- Float
-    toga_cdr_test_float.setFloat(20.53689);
-
-    //-- Double
-    toga_cdr_test_dbl.setDouble(9.489768435468);
-
-
-    //-- Integer Array (4 options) uncomment only one at a time for testing
-
-    //-- Integer Array Full Write
-    std::vector<int> values = {10, 20, 30, 40, 50, 60};
-    toga_cdr_test_intV.setIntV(values);
-
-    //-- Integer Array Partial Write Starting at Index 2
-    //std::vector<int> values2 = {101, 102};
-    //toga_cdr_test_intV.setIntV(2, 2, values2);  // Writes to index 2 and 3
-
-    //-- Integer Array Inline (no temporary)
-    //toga_cdr_test_intV.setIntV({1, 2, 3, 4, 5});
-
-    //-- Integer Array Paritial Inline
-    //toga_cdr_test_intV.setIntV(1, 3, {7, 8, 9});  // Start at index 1, write 3 values
-
-
-
-
-    //-- Float Array (4 options) uncomment only one at a time for testing
-
-    //-- Float Array Full Write
-    std::vector<float> temps = {21.5f, 22.0f, 22.7f, 21.2, 20.3};
-    toga_cdr_test_floatV.setFloatV(temps);
-
-    //-- Float Array Partial Write Starting at Index 2
-    //std::vector<float> updates = {99.1f, 100.2f};
-    //toga_cdr_test_floatV.setFloatV(4, 2, updates);  // Writes to index 4 and 5
-
-    //-- Float Array Inline (no temporary)
-    //toga_cdr_test_floatV.setFloatV({3.14f, 2.71f, 1.41f});
-
-    //-- Float Array Paritial Inline
-    //toga_cdr_test_floatV.setFloatV(0, 2, {5.5f, 6.6f});
-
-    //-- Float Array (dynamic)
-    std::vector<float> animation_values(6);
-    for (int i = 0; i < 6; ++i) {
-        animation_values[i] = sin(XPLMGetElapsedTime()) * 10.0f + i;
-    }
-    toga_cdr_test_floatV2.setFloatV(animation_values);
-
-
-
-
-    //-- Byte (char)
-    char byte_test[] = "xxxxx";
-    toga_cdr_test_byteV.setByte(strlen(byte_test), byte_test);
-
-    //-- ByteStr (string)
-    toga_cdr_test_byteStr.setByteStr("test byte string");
-
-
-
-
-    //==[ USING CONVENIENCE GETTERS ]===================================================
-
-    if (do_cdr_convenience_getters)
-    {
-        printf("\n");
-        printf("do_cdr_convenience_getters......\n");
-
-        // Integer
-        printf("Test Integer Get: %d \n", toga_cdr_test_int.getInt());
-
-        // Float
-        printf("Test Float Get: %f \n", toga_cdr_test_float.getFloat());
-
-        // Double
-        printf("Test Double Get: %14.12lf \n", toga_cdr_test_dbl.getDouble());
-
-        // Interger Array
-        std::vector<int> readback = toga_cdr_test_intV.getIntV(0, 4);
-        for (int i = 0; i < readback.size(); ++i)
-            printf("int[%d] = %d\n", i, readback[i]);
-
-        // Float Array
-        std::vector<float> test_float_array = toga_cdr_test_floatV.getFloatV(0, 3);
-        for (int i = 0; i < test_float_array.size(); ++i) {
-            printf("Test Float Array Get: test_float_array[%d] = %f\n", i, test_float_array[i]);
-        }
-
-        // Float Array (Dynamic)
-        std::vector<float> test_float_array_dyn = toga_cdr_test_floatV.getFloatV(0, 3);
-        for (int i = 0; i < test_float_array_dyn.size(); ++i) {
-            printf("Test Float Array (Dynamic) Get: test_float_array[%d] = %f\n", i, test_float_array_dyn[i]);
-        }
-
-        // String
-
-        string test_string = toga_cdr_test_byteV.getByteStr();
-        printf("Test String Get: %s\n", test_string.c_str());
-
-
-        do_cdr_convenience_getters = false;     // Only run the getters once
-    }
-
-}
-
-
-
-//----------------------------------------------------------------------------------------------------------------------
-void RegisterCustDatarefTest(){
-    if (run_cdr_test)
-    {
-        XPLMRegisterFlightLoopCallback(CustomDatarefTestFLCB, -1, nullptr);
-    }
-};
-//----------------------------------------------------------------------------------------------------------------------
-void UnregisterCustDatarefTest(){
-    if (run_cdr_test)
-    {
-        XPLMUnregisterFlightLoopCallback(CustomDatarefTestFLCB,	nullptr);
-    }
-};
-
-*/
-
-
 
 
 void test_cdataref_scalars() {
-    CDataref int_dr("sim/custom/int_dr", xplmType_Int, true);
+    CDataref int_dr("test/custom/int_dr", int_cdr_T, true);
     int_dr.setInt(42);
     printf("Custom Int: %d\n", int_dr.getInt());
 
-    CDataref float_dr("sim/custom/float_dr", xplmType_Float, true);
+    CDataref float_dr("test/custom/float_dr", float_cdr_T, true);
     float_dr.setFloat(3.14f);
     printf("Custom Float: %.2f\n", float_dr.getFloat());
 
-    CDataref double_dr("sim/custom/double_dr", xplmType_Double, true);
+    CDataref double_dr("test/custom/double_dr", double_cdr_T, true);
     double_dr.setDouble(12345.678);
     printf("Custom Double: %.3f\n", double_dr.getDouble());
 }
 
 void test_cdataref_arrays() {
-    CDataref int_array("sim/custom/int_array", xplmType_IntArray, 3, true);
+    CDataref int_array("test/custom/int_array", intv_cdr_T, 3, true);
     int_array.setIntV({1, 2, 3});
     auto ints = int_array.getIntV(0, 3);
     printf("Custom Int Array: %d %d %d\n", ints[0], ints[1], ints[2]);
 
-    CDataref float_array("sim/custom/float_array", xplmType_FloatArray, 2, true);
+    CDataref float_array("test/custom/float_array", floatv_cdr_T, 2, true);
     float_array.setFloatV({4.4f, 5.5f});
     auto floats = float_array.getFloatV(0, 2);
     printf("Custom Float Array: %.1f %.1f\n", floats[0], floats[1]);
@@ -262,21 +94,53 @@ void test_cdataref_arrays() {
 
 void test_cdataref_bytestring() {
     const char* test_str = "hello world";
-    CDataref byte_dr("sim/custom/byte_str", xplmType_Data, strlen(test_str) + 1, test_str, true);
+    CDataref byte_dr("test/custom/byte_str", bytev_cdr_T, strlen(test_str) + 1, test_str, true);
     printf("Custom Byte String: %s\n", byte_dr.getByteStr().c_str());
 }
 
+
+
+
+
+
+
+
+
 #ifdef ENABLE_TESTS
-void run_xdr_tests() {
+void run_cdr_tests() {
     try {
-        test_xdataref_scalars();
-        test_xdataref_arrays();
-        test_xdataref_string();
-        printf("XDataref tests passed.\n");
+        test_cdataref_scalars();
+        test_cdataref_arrays();
+        test_cdataref_bytestring();
+
+        // Manually pull values to verify caching
+        printf("\n[CDataref] Verifying fetchNow() behavior...\n");
+
+        CDataref test_int2("test/custom/int2_dr", int_cdr_T, true);
+        CDataref test_float2("test/custom/float2_dr", float_cdr_T, true);
+        CDataref test_array2("test/custom/int2_array", intv_cdr_T, 3, true);
+        CDataref test_bytes2("test/custom/byte2_str", floatv_cdr_T, 32, "fetch_test", true);
+
+        test_int2.setInt(123);
+        test_float2.setFloat(9.81f);
+        test_array2.setIntV({4, 5, 6});
+        test_bytes2.setByteStr("check123");
+
+        test_int2.fetchNow();
+        test_float2.fetchNow();
+        test_array2.fetchNow();
+        test_bytes2.fetchNow();
+
+        printf("Fetched Int: %d\n", test_int2.getInt());
+        printf("Fetched Float: %.2f\n", test_float2.getFloat());
+        auto a = test_array2.getIntV(0, 3);
+        printf("Fetched IntArray: %d %d %d\n", a[0], a[1], a[2]);
+        printf("Fetched Byte String: %s\n", test_bytes2.getByteStr().c_str());
+
+        printf("|=====> CDataref tests passed.\n");
     } catch (const std::exception& e) {
-        printf("XDataref tests failed: %s\n", e.what());
+        printf("|=====> CDataref tests failed: %s\n", e.what());
     }
 }
 #endif
-
 

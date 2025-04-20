@@ -30,7 +30,7 @@ using std::printf;
 // #include "XPLMNavigation.h"
 // #include "XPLMPlanes.h"
 // #include "XPLMPlugin.h"
-// #include "XPLMProcessing.h"
+#include "XPLMProcessing.h"
 // #include "XPLMScenery.h"
 // #include "XPLMSound.h"
 // #include "XPLMUtilities.h"
@@ -66,6 +66,9 @@ using std::printf;
 //======================================================================================================================
 
 
+
+
+
 vector<CDataref *> CDataref::custom_datarefs;
 
 
@@ -93,6 +96,7 @@ CDataref::CDataref(
             xp_dr_type = xplmType_Double;
             break;
         default:
+            printf("type: %i %s\n", p_dr_type, p_dr_name.c_str());
             assert(false && "[B717] p_dr_type is invalid");
     }
     this->dr_handle = XPLMRegisterDataAccessor(
@@ -226,6 +230,7 @@ CDataref::CDataref(
 
 
 
+
 // XP Data Accessor Getters/Setters
 int CDataref::readInt(void *inReadRefcon) {
     auto *this_instance = static_cast<CDataref*>(inReadRefcon);
@@ -316,6 +321,35 @@ int CDataref::readByte(void *inReadRefcon, void *outValue, int inOffset, int inM
 
 
 
+void CDataref::fetchNow() {
+    if (!dr_handle) return;
+
+    switch (dr_type) {
+    case int_cdr_T:
+        i_value = XPLMGetDatai(dr_handle);
+        break;
+    case float_cdr_T:
+        f_value = XPLMGetDataf(dr_handle);
+        break;
+    case double_cdr_T:
+        d_value = XPLMGetDatad(dr_handle);
+        break;
+    case intv_cdr_T:
+        XPLMGetDatavi(dr_handle, i_array_values.data(), 0, static_cast<int>(i_array_values.size()));
+        break;
+    case floatv_cdr_T:
+        XPLMGetDatavf(dr_handle, f_array_values.data(), 0, static_cast<int>(f_array_values.size()));
+        break;
+    case bytev_cdr_T:
+        XPLMGetDatab(dr_handle, b_array_values.data(), 0, static_cast<int>(b_array_values.size()));
+        break;
+    default:
+        break;
+    }
+}
+
+
+
 
 
 
@@ -403,8 +437,8 @@ int CDataref::getIntV(int start_index, int num_elements, int *values) {
     return XPLMGetDatavi(dr_handle, values, start_index, num_elements);
 }
 
-std::vector<int> CDataref::getIntV(int start_index, int num_elements) {
-    std::vector<int> result(num_elements, 0);
+vector<int> CDataref::getIntV(int start_index, int num_elements) {
+    vector<int> result(num_elements, 0);
     int read_count = XPLMGetDatavi(dr_handle, result.data(), start_index, num_elements);
     result.resize(read_count); // In case fewer values were actually read
     return result;
@@ -414,8 +448,8 @@ float CDataref::getFloatV(int start_index, int num_elements, float *values) {
     return XPLMGetDatavf(dr_handle, values, start_index, num_elements); // NOLINT(*-narrowing-conversions)
 }
 
-std::vector<float> CDataref::getFloatV(int start_index, int num_elements) {
-    std::vector<float> result(num_elements, 0.0f);
+vector<float> CDataref::getFloatV(int start_index, int num_elements) {
+    vector<float> result(num_elements, 0.0f);
     int read_count = XPLMGetDatavf(dr_handle, result.data(), start_index, num_elements);
     result.resize(read_count); // In case fewer values were actually read
     return result;
@@ -426,14 +460,14 @@ int CDataref::getByte(int start_index, int num_elements, void *values) {
     return XPLMGetDatab(dr_handle, values, start_index, num_elements);
 }
 
-std::string CDataref::getByteStr() {
+string CDataref::getByteStr() {
     // Get current dataref array size
     int array_size = static_cast<int>(XPLMGetDatab(dr_handle, nullptr, 0, 0));
     if (array_size <= 0) {
         return "";
     }
 
-    std::vector<unsigned char> buffer(array_size, '\0');
+    vector<unsigned char> buffer(array_size, '\0');
 
     // Read actual contents from the dataref
     XPLMGetDatab(dr_handle, buffer.data(), 0, array_size);
@@ -441,7 +475,7 @@ std::string CDataref::getByteStr() {
     // Ensure null-termination
     buffer[array_size - 1] = '\0';
 
-    return std::string(reinterpret_cast<char*>(buffer.data()));
+    return string(reinterpret_cast<char*>(buffer.data()));
 }
 
 
@@ -465,7 +499,7 @@ void CDataref::setDouble(double inValue) {
     XPLMSetDatad(dr_handle, inValue);
 }
 
-void CDataref::setIntV(const std::vector<int>& values) {
+void CDataref::setIntV(const vector<int>& values) {
     if (!dr_is_writeable) return;
     int write_count = std::min(static_cast<int>(values.size()), static_cast<int>(i_array_capacity));
 
@@ -476,7 +510,7 @@ void CDataref::setIntV(const std::vector<int>& values) {
     XPLMSetDatavi(dr_handle, const_cast<int*>(values.data()), 0, write_count);
 }
 
-void CDataref::setIntV(int start_index, int num_elements, const std::vector<int>& values) {
+void CDataref::setIntV(int start_index, int num_elements, const vector<int>& values) {
     if (!dr_is_writeable) return;
     if (start_index < 0 || num_elements <= 0 || static_cast<size_t>(start_index) >= i_array_capacity) {
         return;
@@ -517,7 +551,7 @@ void CDataref::setIntV(int start_index, int num_elements, std::initializer_list<
     XPLMSetDatavi(dr_handle, const_cast<int*>(values.begin()), start_index, write_count);
 }
 
-void CDataref::setFloatV(const std::vector<float>& values) {
+void CDataref::setFloatV(const vector<float>& values) {
     if (!dr_is_writeable) return;
     int write_count = std::min(static_cast<int>(values.size()), static_cast<int>(f_array_capacity));
 
@@ -528,7 +562,7 @@ void CDataref::setFloatV(const std::vector<float>& values) {
     XPLMSetDatavf(dr_handle, const_cast<float*>(values.data()), 0, write_count);
 }
 
-void CDataref::setFloatV(int start_index, int num_elements, const std::vector<float>& values) {
+void CDataref::setFloatV(int start_index, int num_elements, const vector<float>& values) {
     if (!dr_is_writeable) return;
     if (start_index < 0 || num_elements <= 0 || static_cast<size_t>(start_index) >= f_array_capacity) {
         return;
@@ -579,7 +613,7 @@ void CDataref::setByte(int num_elements, void *in_values) {
 
     auto byte_in = static_cast<unsigned char *>(in_values);
 
-    // Clear entire buffer
+    // Clear the entire buffer
     std::fill(b_array_values.begin(), b_array_values.end(), '\0');
 
     // Copy new bytes
@@ -603,23 +637,39 @@ void CDataref::setByteStr(const char* str) {
 }
 
 
+float send_CDRs_to_DRE(float elapsedMe, float elapsedSim, int counter, void* refcon)
+{
+    XPLMPluginID DRE_ID = XPLMFindPluginBySignature("xplanesdk.examples.DataRefEditor");
+
+    if (DRE_ID != XPLM_NO_PLUGIN_ID)
+    {
+        for (size_t i = 0; i < CDataref::custom_datarefs.size(); ++i)
+        {
+            const char* name = CDataref::custom_datarefs[i]->dr_name.c_str();
+            XPLMSendMessageToPlugin(DRE_ID, MSG_ADD_DATAREF, (void*)name);
+        }
+    }
+
+    return 0;
+}
 
 
 
 
-// Examples
-/*
 
 
 
 
+void RegisterCDRtoDREFLCB(void)
+{
+    XPLMRegisterFlightLoopCallback(send_CDRs_to_DRE, 1, nullptr);
+}
 
-
-
-
-
-
-
-
-
-*/
+void UnregisterRegisterCDRtoDREFLCB(void)
+{
+    for (auto i = CDataref::custom_datarefs.begin(); i != CDataref::custom_datarefs.end(); ++i)
+    {
+        XPLMUnregisterDataAccessor((*i)->dr_handle);
+    }
+    XPLMUnregisterFlightLoopCallback(send_CDRs_to_DRE, nullptr);
+}
