@@ -94,7 +94,6 @@ public:
     // One-Time Universal fetch All Values for a Dataref (uses existing array size as needed)
     void fetchNow();
 
-
     // Scalar Getters
     int getInt();
     float getFloat();

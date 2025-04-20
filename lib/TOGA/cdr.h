@@ -132,13 +132,14 @@ public:
 
     /*
         Primary Difference: vector vs. std::initializer_list
-        –––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-        Feature	                vector<T>	                            std::initializer_list<T>
+        =====================================================
+        Feature	                vector<T>	                                std::initializer_list<T>
+        ----------------------- ------------------------------------------- -------------------------------------------
         Dynamic allocation  	Yes — resizable at runtime	                No — fixed-size, copy-once container
         Used for...	            Dynamic data sources, variable input	    Fixed literal sets {1, 2, 3}
         Modifiable	            Yes — supports push_back, resize, etc.	    No — read-only
         Memory layout	        Heap-allocated contiguous buffer	        Temporary stack-allocated block
-        Constructed by...	    vector<T> v = {1, 2, 3};	            Implicit via {}
+        Constructed by...	    vector<T> v = {1, 2, 3};	                Implicit via {}
         Lifetime	            Explicit object (you control lifetime)	    Very short-lived (temporary binding)
 
      */
