@@ -1,7 +1,7 @@
-#   ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-#   •                                                       TOGA
-#   •                                    COPYRIGHT (c) 2025  -  ALL RIGHTS RESERVED
-#   ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# •                                                       TOGA
+# •                                    COPYRIGHT (c) 2025  -  ALL RIGHTS RESERVED
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
 
 cmake_minimum_required(VERSION 3.27)
@@ -79,12 +79,6 @@ set(SRC
         ${SRC_DIR}/xx_imgui_xp_impl/imgui_xp_impl.h
         ${SRC_DIR}/xx_examples/autopilot_ui.cpp
         ${SRC_DIR}/xx_examples/autopilot_ui.h
-        #${SRC_DIR}/xx_tests/tests_all.cpp
-        #${SRC_DIR}/xx_tests/tests_all.h
-        #${SRC_DIR}/xx_tests/tests_cdatarefs.cpp
-        #${SRC_DIR}/xx_tests/tests_cdatarefs.h
-        #${SRC_DIR}/xx_tests/tests_xdatarefs.cpp
-        #${SRC_DIR}/xx_tests/tests_xdatarefs.h
         ${SRC_DIR}/main.cpp
 )
 
@@ -191,6 +185,7 @@ include_directories(
         ${SRC_DIR}/70_power_plant/84_propulsion_augmentation
         ${SRC_DIR}/xx_imgui_xp_impl
         ${SRC_DIR}/xx_examples
+        ${SRC_DIR}/xx_examples/imgui
         ${SRC_DIR}/xx_tests
     )
 
