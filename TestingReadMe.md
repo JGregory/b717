@@ -18,7 +18,7 @@ To disable test code:
 
 1. **Open CLion Preferences**:
     - `File → Settings` (Windows/Linux)
-    - `CLion → Preferences` (macOS)
+    - `CLion → Settings` (macOS)
 
 2. Navigate to:
     - `Build, Execution, Deployment → CMake`

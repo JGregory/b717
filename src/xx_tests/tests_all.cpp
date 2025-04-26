@@ -83,7 +83,7 @@ void runAllTests() {
     run_cdr_tests();
     run_xdr_tests();
 
-    printf("All registered tests completed.\n");
+    printf("\nAll registered tests completed.\n");
     printf("[=================================================]\n");
     printf("\n");
 }

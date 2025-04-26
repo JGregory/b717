@@ -78,27 +78,27 @@ void test_xdataref_scalars() {
     altitude.fetchNow();
     printf("Altitude (float): %.2f\n", altitude.valuef());
 
-    XDataref sim_time("sim/time/total_flight_time_sec", xplmType_Double, false);
-    sim_time.fetchNow();
-    printf("Sim Time (double): %.2f\n", sim_time.valued());
+    XDataref sim_alt("sim/flightmodel2/position/pressure_altitude", xplmType_Double, false);
+    sim_alt.fetchNow();
+    printf("Sim Press Alt (double): %.12f\n", sim_alt.valued());
 }
 
 void test_xdataref_arrays() {
     XDataref batteries("sim/cockpit2/electrical/battery_on", xplmType_IntArray, false);
     batteries.fetchNow();
-    printf("Battery 0: %d\n", batteries.valuesi()[0]);
-    printf("Battery 1: %d\n", batteries.valuesi()[1]);
+    printf("Battery 0 (int array): %d\n", batteries.valuesi()[0]);
+    printf("Battery 1 (int array): %d\n", batteries.valuesi()[1]);
 
     XDataref engines("sim/flightmodel/engine/ENGN_thro", xplmType_FloatArray, false);
     engines.fetchNow();
-    printf("Throttle 0: %.2f\n", engines.valuesf()[0]);
-    printf("Throttle 1: %.2f\n", engines.valuesf()[1]);
+    printf("Throttle 0 (float array): %.2f\n", engines.valuesf()[0]);
+    printf("Throttle 1 (float array): %.2f\n", engines.valuesf()[1]);
 }
 
 void test_xdataref_string() {
     XDataref aircraft_name("sim/aircraft/view/acf_descrip", xplmType_Data, false);
     aircraft_name.fetchNow();
-    printf("Aircraft: %s\n", aircraft_name.stringValue().c_str());
+    printf("Aircraft (byte array): %s\n", aircraft_name.stringValue().c_str());
 }
 
 
@@ -111,12 +111,13 @@ void test_xdataref_string() {
 
 void run_xdr_tests() {
     try {
+        printf("\n[XDataref]...\n");
         test_xdataref_scalars();
         test_xdataref_arrays();
         test_xdataref_string();
-        printf("|=====> XDataref tests passed.\n");
+        printf("|=====> [XDataref] tests passed.\n");
     } catch (const std::exception& e) {
-        printf("|=====> XDataref tests failed: %s\n", e.what());
+        printf("|=====> [XDataref] tests failed: %s\n", e.what());
     }
 }
 
