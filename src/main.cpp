@@ -44,13 +44,12 @@ using std::printf;
 //--[ IMGUI LIBRARY HEADER INCLUDES ]-----------------------------------------------------------------------------------
 
 
-//--[ IMGUI XP IMPLEMENTATION HEADERS ]------------------------------------------------------------------------------------
+//--[ IMGUI XP IMPLEMENTATION HEADERS ]---------------------------------------------------------------------------------
 
 
 //--[ TOGA LIBRARY HEADERS ]--------------------------------------------------------------------------------------------
 #include "debug_flag.h"
 #include "version.h"
-#include "imgui_wrapper.h"
 #include "xdr.h"
 #include "cdr.h"
 
@@ -111,13 +110,9 @@ PLUGIN_API int XPluginStart(char * outName,
 
 
     //----------------------INIT & REGISTRATION ------------------------
-    ImGuiWrapper::Init();                   // Initialize ImGui
-
     RegisterXDRFLCB();                      // X-Plane Datarefs
     RegisterCDRtoDREFLCB();                 // Custom Datarefs to Dataref Editor
 
-    //InitAutopilotUI();                    // Initialize Autopilot UI
-    //RegisterAutopilotUI();                // Register Autopilot UI Callback
 
 
 
@@ -146,9 +141,6 @@ PLUGIN_API void	XPluginStop(void)
 
     UnregisterXDRFLCB();                    // X-Plane Datarefs
     UnregisterRegisterCDRtoDREFLCB();       // Custom Datarefs to Dataref Editor
-
-    //ImGuiWrapper::Shutdown();             // Cleanup ImGui
-    //UnregisterAutopilotUI();              // Unregister Autopilot UI Callback
 
 
 

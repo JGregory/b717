@@ -75,10 +75,6 @@ set(SRC
         ${SRC_DIR}/02_xdatarefs/xdatarefs.h
         ${SRC_DIR}/04_cdatarefs/cdatarefs.cpp
         ${SRC_DIR}/04_cdatarefs/cdatarefs.h
-        ${SRC_DIR}/xx_imgui_xp_impl/imgui_xp_impl.cpp
-        ${SRC_DIR}/xx_imgui_xp_impl/imgui_xp_impl.h
-        ${SRC_DIR}/xx_examples/imgui/autopilot_ui.cpp
-        ${SRC_DIR}/xx_examples/imgui/autopilot_ui.h
         ${SRC_DIR}/main.cpp
 )
 
@@ -108,11 +104,6 @@ add_library(IMGUI STATIC
         ${IMGUI_LIB_DIR}/backends/imgui_impl_opengl2.cpp
 )
 
-# IMGUI WRAPPER LIBRARY
-add_library(IMGUI_WRAPPER STATIC
-        ${TOGA_LIB_DIR}/imgui_wrapper.cpp
-        ${TOGA_LIB_DIR}/imgui_wrapper.h
-)
 
 
 
@@ -192,11 +183,6 @@ include_directories(
 target_include_directories(IMGUI PUBLIC
         ${IMGUI_LIB_DIR}
         ${IMGUI_LIB_DIR}/backends
-)
-
-target_include_directories(IMGUI_WRAPPER PUBLIC
-        ${TOGA_LIB_DIR}   # Includes imgui_wrapper headers
-        ${IMGUI_LIB_DIR}   # Includes core ImGui headers
 )
 
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
