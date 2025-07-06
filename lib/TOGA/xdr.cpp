@@ -10,38 +10,12 @@
 #include <vector>
 #include <cstdio>
 #include <cassert>
-//#include <algorithm>
-
-
-//using std::cout;
-//using std::endl;
-using std::string;
-using std::vector;
-using std::printf;
 
 
 //--[ X-PLANE SDK LIBRARY HEADERS ]-------------------------------------------------------------------------------------
-// #include "XPLMCamera.h"
 #include "XPLMDataAccess.h"
-// #include "XPLMDefs.h"
-// #include "XPLMDisplay.h"
-// #include "XPLMGraphics.h"
-// #include "XPLMInstance.h"
-// #include "XPLMMap.h"
-// #include "XPLMMenus.h"
-// #include "XPLMNavigation.h"
-// #include "XPLMPlanes.h"
-// #include "XPLMPlugin.h"
 #include "XPLMProcessing.h"
-// #include "XPLMScenery.h"
-// #include "XPLMSound.h"
 #include "XPLMUtilities.h"
-// #include "XPLMWeather.h"
-// #include "XPStandardWidgets.h"
-// #include "XPUIGraphics.h"
-// #include "XPWidgetDefs.h"
-// #include "XPWidgets.h"
-// #include "XPWidgetUtils.h"
 
 
 //--[ IMGUI LIBRARY HEADER INCLUDES ]-----------------------------------------------------------------------------------
@@ -52,7 +26,6 @@ using std::printf;
 
 //--[ TOGA LIBRARY HEADERS ]--------------------------------------------------------------------------------------------
 #include "xdr.h"
-#include "datatypes.h"
 
 
 //--[ AIRCRAFT HEADERS ]------------------------------------------------------------------------------------------------
@@ -68,10 +41,10 @@ using std::printf;
 //======================================================================================================================
 
 
-vector<XDataref*> XDataref::xp_datarefs;
+std::vector<XDataref*> XDataref::xp_datarefs;
 
 
-XDataref::XDataref(string name, int type, bool poll)
+XDataref::XDataref(std::string name, int type, bool poll)
     :
     dr_name(std::move(name)),
     dr_type(type),
@@ -140,8 +113,8 @@ int XDataref::getIntV(int start, int count, int* out) {
     return XPLMGetDatavi(dr_handle, out, start, count);
 }
 
-vector<int> XDataref::getIntV(int start, int count) {
-    vector<int> result(count, 0);
+std::vector<int> XDataref::getIntV(int start, int count) {
+    std::vector<int> result(count, 0);
     int read = XPLMGetDatavi(dr_handle, result.data(), start, count);
     result.resize(read);
     return result;
@@ -151,8 +124,8 @@ float XDataref::getFloatV(int start, int count, float* out) {
     return XPLMGetDatavf(dr_handle, out, start, count);
 }
 
-vector<float> XDataref::getFloatV(int start, int count) {
-    vector<float> result(count, 0.0f);
+std::vector<float> XDataref::getFloatV(int start, int count) {
+    std::vector<float> result(count, 0.0f);
     int read = XPLMGetDatavf(dr_handle, result.data(), start, count);
     result.resize(read);
     return result;
@@ -162,13 +135,13 @@ int XDataref::getByte(int start, int count, void* out) {
     return XPLMGetDatab(dr_handle, out, start, count);
 }
 
-string XDataref::getByteStr() {
+std::string XDataref::getByteStr() {
     int size = XPLMGetDatab(dr_handle, nullptr, 0, 0);
     if (size <= 0) return "";
-    vector<unsigned char> buf(size, '\0');
+    std::vector<unsigned char> buf(size, '\0');
     XPLMGetDatab(dr_handle, buf.data(), 0, size);
     buf[size - 1] = '\0';
-    return string(reinterpret_cast<char*>(buf.data()));
+    return std::string(reinterpret_cast<char*>(buf.data()));
 }
 
 
@@ -191,14 +164,14 @@ void XDataref::setDouble(double val) {
     XPLMSetDatad(dr_handle, val);
 }
 
-void XDataref::setIntV(const vector<int>& values) {
+void XDataref::setIntV(const std::vector<int>& values) {
     if (!dr_is_writeable) return;
     int count = std::min(static_cast<int>(values.size()), static_cast<int>(i_array_size));
     for (int i = 0; i < count; ++i) i_array_values[i] = values[i];
     XPLMSetDatavi(dr_handle, const_cast<int*>(values.data()), 0, count);
 }
 
-void XDataref::setIntV(int start, int count, const vector<int>& values) {
+void XDataref::setIntV(int start, int count, const std::vector<int>& values) {
     if (!dr_is_writeable || start < 0 || count <= 0 || static_cast<size_t>(start) >= i_array_size) return;
     int write_count = std::min({ count, static_cast<int>(values.size()), static_cast<int>(i_array_size - start) });
     for (int i = 0; i < write_count; ++i) i_array_values[start + i] = values[i];
@@ -213,14 +186,14 @@ void XDataref::setIntV(int start, int count, std::initializer_list<int> values) 
     XPLMSetDatavi(dr_handle, const_cast<int*>(values.begin()), start, write_count);
 }
 
-void XDataref::setFloatV(const vector<float>& values) {
+void XDataref::setFloatV(const std::vector<float>& values) {
     if (!dr_is_writeable) return;
     int count = std::min(static_cast<int>(values.size()), static_cast<int>(f_array_size));
     for (int i = 0; i < count; ++i) f_array_values[i] = values[i];
     XPLMSetDatavf(dr_handle, const_cast<float*>(values.data()), 0, count);
 }
 
-void XDataref::setFloatV(int start, int count, const vector<float>& values) {
+void XDataref::setFloatV(int start, int count, const std::vector<float>& values) {
     if (!dr_is_writeable || start < 0 || count <= 0 || static_cast<size_t>(start) >= f_array_size) return;
     int write_count = std::min({ count, static_cast<int>(values.size()), static_cast<int>(f_array_size - start) });
     for (int i = 0; i < write_count; ++i) f_array_values[start + i] = values[i];
@@ -255,7 +228,7 @@ void XDataref::setByteStr(const char* str) {
 // Value access helpers
 int XDataref::valuei() const {
     if (dr_type != xplmType_Int)
-        //printf("dr_name: %s", this->dr_name.c_str());
+        //std::printf("dr_name: %s", this->dr_name.c_str());
         throw std::runtime_error("XDataref::valuei() called on non-int type");
     return i_value;
 }
@@ -270,26 +243,26 @@ double XDataref::valued() const {
     return d_value;
 }
 
-const vector<int>& XDataref::valuesi() const {
+const std::vector<int>& XDataref::valuesi() const {
     if (dr_type != xplmType_IntArray)
         throw std::runtime_error("XDataref::valuesi() called on non-int array type");
     return i_array_values;
 }
-const vector<float>& XDataref::valuesf() const {
+const std::vector<float>& XDataref::valuesf() const {
     if (dr_type != xplmType_FloatArray)
         throw std::runtime_error("XDataref::valuesf() called on non-float array type");
     return f_array_values;
 }
-const vector<unsigned char>& XDataref::valuesb() const {
+const std::vector<unsigned char>& XDataref::valuesb() const {
     if (dr_type != xplmType_Data)
         throw std::runtime_error("XDataref::valuesb() called on non-byte dataref type");
     return b_array_values;
 }
 
-string XDataref::stringValue() const {
+std::string XDataref::stringValue() const {
     if (dr_type != xplmType_Data)
         throw std::runtime_error("XDataref::stringValue() called on non-data type");
-    return string(reinterpret_cast<const char*>(b_array_values.data()));
+    return std::string(reinterpret_cast<const char*>(b_array_values.data()));
 }
 
 

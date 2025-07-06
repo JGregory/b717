@@ -10,12 +10,14 @@
 
 #ifdef ENABLE_TESTS
 
+
 // Master test entry point
 void runAllTests();
 
 // Command registration helpers
 void registerTestCommand();
 void unregisterTestCommand();
+
 
 #endif
 

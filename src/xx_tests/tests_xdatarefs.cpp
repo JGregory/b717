@@ -4,43 +4,10 @@
 // •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
 //--[ C/C++ LIBRARY INCLUDES ]------------------------------------------------------------------------------------------
-//#include <cstring>
-//#include <string>
-//#include <iostream>
-//#include <vector>
-#include <cstdio>
-//#include <cassert>
-//#include <cmath>
-
-//using std::cout;
-//using std::endl;
-//using std::string;
-//using std::vector;
-using std::printf;
 
 
 //--[ X-PLANE SDK LIBRARY HEADERS ]-------------------------------------------------------------------------------------
-// #include "XPLMCamera.h"
 #include "XPLMDataAccess.h"
-// #include "XPLMDefs.h"
-// #include "XPLMDisplay.h"
-// #include "XPLMGraphics.h"
-// #include "XPLMInstance.h"
-// #include "XPLMMap.h"
-// #include "XPLMMenus.h"
-// #include "XPLMNavigation.h"
-// #include "XPLMPlanes.h"
-// #include "XPLMPlugin.h"
-// #include "XPLMProcessing.h"
-// #include "XPLMScenery.h"
-// #include "XPLMSound.h"
-// #include "XPLMUtilities.h"
-// #include "XPLMWeather.h"
-// #include "XPStandardWidgets.h"
-// #include "XPUIGraphics.h"
-// #include "XPWidgetDefs.h"
-// #include "XPWidgets.h"
-// #include "XPWidgetUtils.h"
 
 
 //--[ IMGUI LIBRARY HEADER INCLUDES ]-----------------------------------------------------------------------------------
@@ -50,7 +17,6 @@ using std::printf;
 
 
 //--[ TOGA LIBRARY HEADERS ]--------------------------------------------------------------------------------------------
-#include "datatypes.h"
 #include "xdr.h"
 
 
@@ -72,33 +38,33 @@ using std::printf;
 void test_xdataref_scalars() {
     XDataref gear_handle("sim/cockpit/switches/gear_handle_status", xplmType_Int, false);
     gear_handle.fetchNow();
-    printf("Gear Handle (int): %d\n", gear_handle.valuei());
+    std::printf("Gear Handle (int): %d\n", gear_handle.valuei());
 
     XDataref altitude("sim/flightmodel/position/elevation", xplmType_Float, false);
     altitude.fetchNow();
-    printf("Altitude (float): %.2f\n", altitude.valuef());
+    std::printf("Altitude (float): %.2f\n", altitude.valuef());
 
     XDataref sim_alt("sim/flightmodel2/position/pressure_altitude", xplmType_Double, false);
     sim_alt.fetchNow();
-    printf("Sim Press Alt (double): %.12f\n", sim_alt.valued());
+    std::printf("Sim Press Alt (double): %.12f\n", sim_alt.valued());
 }
 
 void test_xdataref_arrays() {
     XDataref batteries("sim/cockpit2/electrical/battery_on", xplmType_IntArray, false);
     batteries.fetchNow();
-    printf("Battery 0 (int array): %d\n", batteries.valuesi()[0]);
-    printf("Battery 1 (int array): %d\n", batteries.valuesi()[1]);
+    std::printf("Battery 0 (int array): %d\n", batteries.valuesi()[0]);
+    std::printf("Battery 1 (int array): %d\n", batteries.valuesi()[1]);
 
     XDataref engines("sim/flightmodel/engine/ENGN_thro", xplmType_FloatArray, false);
     engines.fetchNow();
-    printf("Throttle 0 (float array): %.2f\n", engines.valuesf()[0]);
-    printf("Throttle 1 (float array): %.2f\n", engines.valuesf()[1]);
+    std::printf("Throttle 0 (float array): %.2f\n", engines.valuesf()[0]);
+    std::printf("Throttle 1 (float array): %.2f\n", engines.valuesf()[1]);
 }
 
 void test_xdataref_string() {
     XDataref aircraft_name("sim/aircraft/view/acf_descrip", xplmType_Data, false);
     aircraft_name.fetchNow();
-    printf("Aircraft (byte array): %s\n", aircraft_name.stringValue().c_str());
+    std::printf("Aircraft (byte array): %s\n", aircraft_name.stringValue().c_str());
 }
 
 
@@ -111,13 +77,13 @@ void test_xdataref_string() {
 
 void run_xdr_tests() {
     try {
-        printf("\n[XDataref]...\n");
+        std::printf("\n[XDataref]...\n");
         test_xdataref_scalars();
         test_xdataref_arrays();
         test_xdataref_string();
-        printf("|=====> [XDataref] tests passed.\n");
+        std::printf("|=====> [XDataref] tests passed.\n");
     } catch (const std::exception& e) {
-        printf("|=====> [XDataref] tests failed: %s\n", e.what());
+        std::printf("|=====> [XDataref] tests failed: %s\n", e.what());
     }
 }
 

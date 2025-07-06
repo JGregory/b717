@@ -8,41 +8,12 @@
 
 
 //--[ C/C++ LIBRARY INCLUDES ]------------------------------------------------------------------------------------------
-//#include <cstring>
 #include <string>
-//#include <iostream>
 #include <vector>
-//#include <cstdio>
-
-//using std::cout;
-//using std::endl;
-using std::string;
-using std::vector;
-//using std::printf;
 
 
 //--[ X-PLANE SDK LIBRARY HEADERS ]-------------------------------------------------------------------------------------
-// #include "XPLMCamera.h"
 #include "XPLMDataAccess.h"
-// #include "XPLMDefs.h"
-// #include "XPLMDisplay.h"
-// #include "XPLMGraphics.h"
-// #include "XPLMInstance.h"
-// #include "XPLMMap.h"
-// #include "XPLMMenus.h"
-// #include "XPLMNavigation.h"
-// #include "XPLMPlanes.h"
-#include "XPLMPlugin.h"
-// #include "XPLMProcessing.h"
-// #include "XPLMScenery.h"
-// #include "XPLMSound.h"
-// #include "XPLMUtilities.h"
-// #include "XPLMWeather.h"
-// #include "XPStandardWidgets.h"
-// #include "XPUIGraphics.h"
-// #include "XPWidgetDefs.h"
-// #include "XPWidgets.h"
-// #include "XPWidgetUtils.h"
 
 
 //--[ IMGUI LIBRARY HEADER INCLUDES ]-----------------------------------------------------------------------------------
@@ -74,9 +45,9 @@ class CDataref
 {
 
 public:
-    static vector<CDataref *> custom_datarefs;
+    static std::vector<CDataref *> custom_datarefs;
     XPLMDataRef dr_handle;
-    string dr_name;
+    std::string dr_name;
     int dr_type;        // See datatypes.h
     int dr_is_writeable;
     int i_value;
@@ -84,15 +55,15 @@ public:
     double d_value;
     size_t i_array_capacity = 0;
     size_t f_array_capacity = 0;
-    vector<int> i_array_values;
-    vector<float> f_array_values;
-    vector<unsigned char> b_array_values;
+    std::vector<int> i_array_values;
+    std::vector<float> f_array_values;
+    std::vector<unsigned char> b_array_values;
 
     // Constructors
-    CDataref(string p_dr_name, int p_dr_type, int p_dr_is_writeable);   // int/float/double
-    CDataref(string p_dr_name, int p_dr_type, size_t p_i_array_size, int p_dr_is_writeable);    // int array
-    CDataref(string p_dr_name, int p_dr_type, size_t p_f_array_size, bool p_is_float_array, int p_dr_is_writeable); // float array
-    CDataref(string p_dr_name, int p_dr_type, size_t p_b_array_size, const char* initial_value, bool p_is_byte_array, int p_dr_is_writeable);  // byte array
+    CDataref(std::string p_dr_name, int p_dr_type, int p_dr_is_writeable);   // int/float/double
+    CDataref(std::string p_dr_name, int p_dr_type, size_t p_i_array_size, int p_dr_is_writeable);    // int array
+    CDataref(std::string p_dr_name, int p_dr_type, size_t p_f_array_size, bool p_is_float_array, int p_dr_is_writeable); // float array
+    CDataref(std::string p_dr_name, int p_dr_type, size_t p_b_array_size, const char* initial_value, bool p_is_byte_array, int p_dr_is_writeable);  // byte array
 
     // Destructor
     ~CDataref() = default;
@@ -106,25 +77,25 @@ public:
     double getDouble();
 
     int getIntV(int start_index, int num_elements, int *in_values);
-    vector<int> getIntV(int start_index, int num_elements);
+    std::vector<int> getIntV(int start_index, int num_elements);
 
     float getFloatV(int start_index, int num_elements, float *values);
-    vector<float> getFloatV(int start_index, int num_elements);
+    std::vector<float> getFloatV(int start_index, int num_elements);
 
     int getByte(int start_index, int num_elements, void *values);
-    string getByteStr();
+    std::string getByteStr();
 
     // Convenience Data Accessor Setters
     void setInt(int in_value);
     void setFloat(float inValue);
     void setDouble(double inValue);
 
-    void setIntV(const vector<int>& values);
-    void setIntV(int start_index, int num_elements, const vector<int>& values);
+    void setIntV(const std::vector<int>& values);
+    void setIntV(int start_index, int num_elements, const std::vector<int>& values);
     void setIntV(int start_index, int num_elements, std::initializer_list<int> values);
 
-    void setFloatV(const vector<float>& values);
-    void setFloatV(int start_index, int num_elements, const vector<float>& values);
+    void setFloatV(const std::vector<float>& values);
+    void setFloatV(int start_index, int num_elements, const std::vector<float>& values);
     void setFloatV(int start_index, int num_elements, std::initializer_list<float> values);
 
     void setByte(int num_elements, void *in_values);

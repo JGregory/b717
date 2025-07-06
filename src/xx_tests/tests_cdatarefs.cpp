@@ -5,42 +5,9 @@
 
 //--[ C/C++ LIBRARY INCLUDES ]------------------------------------------------------------------------------------------
 #include <cstring>
-//#include <string>
-//#include <iostream>
-//#include <vector>
-#include <cstdio>
-//#include <cassert>
-//#include <cmath>
-
-//using std::cout;
-//using std::endl;
-//using std::string;
-//using std::vector;
-using std::printf;
 
 
 //--[ X-PLANE SDK LIBRARY HEADERS ]-------------------------------------------------------------------------------------
-// #include "XPLMCamera.h"
-// #include "XPLMDataAccess.h"
-// #include "XPLMDefs.h"
-// #include "XPLMDisplay.h"
-// #include "XPLMGraphics.h"
-// #include "XPLMInstance.h"
-// #include "XPLMMap.h"
-// #include "XPLMMenus.h"
-// #include "XPLMNavigation.h"
-// #include "XPLMPlanes.h"
-// #include "XPLMPlugin.h"
-// #include "XPLMProcessing.h"
-// #include "XPLMScenery.h"
-// #include "XPLMSound.h"
-// #include "XPLMUtilities.h"
-// #include "XPLMWeather.h"
-// #include "XPStandardWidgets.h"
-// #include "XPUIGraphics.h"
-// #include "XPWidgetDefs.h"
-// #include "XPWidgets.h"
-// #include "XPWidgetUtils.h"
 
 
 //--[ IMGUI LIBRARY HEADER INCLUDES ]-----------------------------------------------------------------------------------
@@ -69,33 +36,33 @@ using std::printf;
 void test_cdataref_scalars() {
     CDataref int_dr("test/custom/int_dr", int_cdr_T, 1);
     int_dr.setInt(42);
-    printf("Custom Int (set/get): %d\n", int_dr.getInt());
+    std::printf("Custom Int (set/get): %d\n", int_dr.getInt());
 
     CDataref float_dr("test/custom/float_dr", float_cdr_T, 1);
     float_dr.setFloat(3.14f);
-    printf("Custom Float (set/get): %.2f\n", float_dr.getFloat());
+    std::printf("Custom Float (set/get): %.2f\n", float_dr.getFloat());
 
     CDataref double_dr("test/custom/double_dr", double_cdr_T, 1);
     double_dr.setDouble(12345.678);
-    printf("Custom Double (set/get): %.3f\n", double_dr.getDouble());
+    std::printf("Custom Double (set/get): %.3f\n", double_dr.getDouble());
 }
 
 void test_cdataref_arrays() {
     CDataref int_array("test/custom/int_array", intv_cdr_T, 3, 1);
     int_array.setIntV({1, 2, 3});
     auto ints = int_array.getIntV(0, 3);
-    printf("Custom Int Array (set/get): %d %d %d\n", ints[0], ints[1], ints[2]);
+    std::printf("Custom Int Array (set/get): %d %d %d\n", ints[0], ints[1], ints[2]);
 
     CDataref float_array("test/custom/float_array", floatv_cdr_T, 2, true, 1);
     float_array.setFloatV({4.4f, 5.5f});
     auto floats = float_array.getFloatV(0, 2);
-    printf("Custom Float Array (set/get): %.1f %.1f\n", floats[0], floats[1]);
+    std::printf("Custom Float Array (set/get): %.1f %.1f\n", floats[0], floats[1]);
 }
 
 void test_cdataref_bytestring() {
     const char* test_str = "hello world";
     CDataref byte_dr("test/custom/byte_str", bytev_cdr_T, strlen(test_str) + 1, test_str, true, 1);
-    printf("Custom Byte String (set/get): %s\n", byte_dr.getByteStr().c_str());
+    std::printf("Custom Byte String (set/get): %s\n", byte_dr.getByteStr().c_str());
 }
 
 
@@ -138,21 +105,21 @@ void run_cdr_tests() {
         test_float_array2.fetchNow();
         test_bytes2.fetchNow();
 
-        printf("Fetched Custom Int2: %d\n", test_int2.getInt());
-        printf("Fetched Custom Float2: %.2f\n", test_float2.getFloat());
-        printf("Fetched Custom Double2: %.10f\n", test_double2.getDouble());
+        std::printf("Fetched Custom Int2: %d\n", test_int2.getInt());
+        std::printf("Fetched Custom Float2: %.2f\n", test_float2.getFloat());
+        std::printf("Fetched Custom Double2: %.10f\n", test_double2.getDouble());
         auto a = test_int_array2.getIntV(0, 3);
-        printf("Fetched Custom IntArray2: %d %d %d\n", a[0], a[1], a[2]);
+        std::printf("Fetched Custom IntArray2: %d %d %d\n", a[0], a[1], a[2]);
         auto b = test_float_array2.getFloatV(0, 2);
-        printf("Fetched Custom FloatArray2: %f %f\n", b[0], b[1]);
-        printf("Fetched Custom Byte String2: %s\n", test_bytes2.getByteStr().c_str());
+        std::printf("Fetched Custom FloatArray2: %f %f\n", b[0], b[1]);
+        std::printf("Fetched Custom Byte String2: %s\n", test_bytes2.getByteStr().c_str());
 
-        printf("|=====> [CDataref] tests passed.\n");
-        printf("\n");
+        std::printf("|=====> [CDataref] tests passed.\n");
+        std::printf("\n");
 
     } catch (const std::exception& e) {
-        printf("|=====> [CDataref] tests failed: %s\n", e.what());
-        printf("\n");
+        std::printf("|=====> [CDataref] tests failed: %s\n", e.what());
+        std::printf("\n");
     }
 }
 #endif

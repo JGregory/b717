@@ -32,7 +32,7 @@ set(LOCAL_XP 1)
 
 
 # PLUGIN VERSION
-set(VERSION_MAJOR 0)
+set(VERSION_MAJOR 1)
 set(VERSION_MINOR 0)
 set(VERSION_PATCH 0)
 set(PROJECT_VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
@@ -42,7 +42,6 @@ message(${PROJECT_NAME} "v" ${PROJECT_VERSION})
 
 # SET PATH TO ACF PLUGIN DIRECTORY
 file(READ acf_path.txt ACF_DIRECTORY)
-
 
 
 # PLATFORM CONFIGURATION
@@ -57,7 +56,7 @@ endif()
 
 
 # PROJECT LIBRARIES AND FILES
-set(TOGA_LIB_DIR lib/TOGA/)
+set(TOGA_LIB_DIR lib/TOGA)
 set(TOGA_LIB
         ${TOGA_LIB_DIR}/cdr.cpp
         ${TOGA_LIB_DIR}/cdr.h
@@ -111,6 +110,7 @@ add_library(IMGUI STATIC
 
 # DIRECTORIES
 include_directories(
+        ${TOGA_LIB_DIR}
         ${SRC_DIR}/02_xdatarefs
         ${SRC_DIR}/04_cdatarefs
         ${SRC_DIR}/06_xcommands
@@ -247,7 +247,7 @@ find_package(OpenGL REQUIRED)
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
         IMGUI
-        IMGUI_WRAPPER
+        ##IMGUI_WRAPPER
         ${XPLM_LIBRARY}
         ${XPWIDGETS_LIBRARY}
         ${OPENGL_FRAMEWORK}

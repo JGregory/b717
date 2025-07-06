@@ -6,39 +6,13 @@
 //--[ C/C++ LIBRARY INCLUDES ]------------------------------------------------------------------------------------------
 #include <cstring>
 #include <string>
-#include <iostream>
-//#include <vector>
-#include<cstdio>
+#include <cstdio>
 
-//using std::cout;
-//using std::endl;
-using std::string;
-//using std::vector;
-using std::printf;
 
 
 //--[ X-PLANE SDK LIBRARY INCLUDES ]------------------------------------------------------------------------------------
-//  #include "XPLMCamera.h"
-//  #include "XPLMDataAccess.h"
 #include "XPLMDefs.h"
 #include "XPLMDisplay.h"
-//  #include "XPLMGraphics.h"
-//  #include "XPLMInstance.h"
-//  #include "XPLMMap.h"
-//  #include "XPLMMenus.h"
-//  #include "XPLMNavigation.h"
-//  #include "XPLMPlanes.h"
-//  #include "XPLMPlugin.h"
-//  #include "XPLMProcessing.h"
-//  #include "XPLMScenery.h"
-//  #include "XPLMSound.h"
-//  #include "XPLMUtilities.h"
-//  #include "XPLMWeather.h"
-//  #include "XPStandardWidgets.h"
-//  #include "XPUIGraphics.h"
-//  #include "XPWidgetDefs.h"
-//  #include "XPWidgets.h"
-//  #include "XPWidgetUtils.h"
 
 
 //--[ IMGUI LIBRARY HEADER INCLUDES ]-----------------------------------------------------------------------------------
@@ -55,7 +29,6 @@ using std::printf;
 
 
 //--[ AIRCRAFT HEADERS ]------------------------------------------------------------------------------------------------
-#include "cdatarefs.h"
 
 
 //--[ TEST HEADERS ]----------------------------------------------------------------------------------------------------
@@ -63,7 +36,6 @@ using std::printf;
 
 
 //--[ EXAMPLES HEADERS ]------------------------------------------------------------------------------------------------
-//#include "autopilot_ui.h"
 
 
 //======================================================================================================================
@@ -81,8 +53,8 @@ PLUGIN_API int XPluginStart(char * outName,
                             char * outSig,
                             char * outDesc)
 {
-    printf("\n");
-    printf("[B717] XPluginStart: %s %s\n", PROJECT_NAME, PROJECT_VERSION);
+    std::printf("\n");
+    std::printf("[B717] XPluginStart: %s %s\n", PROJECT_NAME, PROJECT_VERSION);
 
 
 
@@ -103,9 +75,9 @@ PLUGIN_API int XPluginStart(char * outName,
 
     if (DEBUG)
     {
-        printf("[B717] ==============================================\n");
-        printf("[B717] =====--->>    DEBUG MODE ENABLED    <<---=====\n");
-        printf("[B717] ==============================================\n");
+        std::printf("[B717] ==============================================\n");
+        std::printf("[B717] =====--->>    DEBUG MODE ENABLED    <<---=====\n");
+        std::printf("[B717] ==============================================\n");
     }
 
 
@@ -137,7 +109,7 @@ PLUGIN_API int XPluginStart(char * outName,
 
 PLUGIN_API void	XPluginStop(void)
 {
-    printf("[B717] XPluginStop: \n");
+    std::printf("[B717] XPluginStop: \n");
 
     UnregisterXDRFLCB();                    // X-Plane Datarefs
     UnregisterRegisterCDRtoDREFLCB();       // Custom Datarefs to Dataref Editor
@@ -163,7 +135,7 @@ PLUGIN_API void	XPluginStop(void)
 
 PLUGIN_API int XPluginEnable(void)
 {
-    printf("[B717] XPluginEnable: \n");
+    std::printf("[B717] XPluginEnable: \n");
 
     return 1;
 }
@@ -179,7 +151,7 @@ PLUGIN_API int XPluginEnable(void)
 
 PLUGIN_API void XPluginDisable(void)
 {
-    printf("[B717] XPluginDisable: \n");
+    std::printf("[B717] XPluginDisable: \n");
 
 }
 
