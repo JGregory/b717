@@ -112,7 +112,7 @@ PLUGIN_API void	XPluginStop(void)
     std::printf("[B717] XPluginStop: \n");
 
     UnregisterXDRFLCB();                    // X-Plane Datarefs
-    UnregisterRegisterCDRtoDREFLCB();       // Custom Datarefs to Dataref Editor
+    UnregisterCDRtoDREFLCB();       // Custom Datarefs to Dataref Editor
 
 
 

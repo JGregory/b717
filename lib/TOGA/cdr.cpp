@@ -638,7 +638,7 @@ void RegisterCDRtoDREFLCB(void)
     XPLMRegisterFlightLoopCallback(send_CDRs_to_DRE, 1, nullptr);
 }
 
-void UnregisterRegisterCDRtoDREFLCB(void)
+void UnregisterCDRtoDREFLCB(void)
 {
     for (auto i = CDataref::custom_datarefs.begin(); i != CDataref::custom_datarefs.end(); ++i)
     {
